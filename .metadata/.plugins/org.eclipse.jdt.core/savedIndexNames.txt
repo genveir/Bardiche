@@ -1,0 +1,5 @@
+INDEX VERSION 1.127+D:\Java\eclipse\workspace\Bardiche\.metadata\.plugins\org.eclipse.jdt.core
+3081230155.index
+2985000679.index
+1895925572.index
+2631653060.index
