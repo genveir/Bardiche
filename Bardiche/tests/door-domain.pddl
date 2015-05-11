@@ -1,5 +1,5 @@
 (define (domain door)
- (:requirements :adl :domain-axioms :intentionality)
+ (:requirements :adl :domain-axioms :intentionality :bardiche)
  (:types item character room)
  (:constants key axe - item
              gatehouse - room)

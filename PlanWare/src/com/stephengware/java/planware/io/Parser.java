@@ -276,6 +276,7 @@ public class Parser<D> implements Cloneable {
 		}
 		try{
 			Triplet<Class<?>, DocumentParser<D>, Boolean> current = getNextDocumentParser(objectType, null);
+			
 			while(current != null){
 				try{
 					if(current.third)

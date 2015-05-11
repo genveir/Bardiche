@@ -31,7 +31,8 @@ public class Glaive extends IntentionalStateSpacePlanner<IntentionalProblem> {
 		}
 	};
 	
-	private final PDDLManager io;
+	// SCRIPTIE changed visibility to protected to give Bardiche access
+	protected final PDDLManager io;
 	
 	public Glaive(){
 		super("Galive");
@@ -52,9 +53,11 @@ public class Glaive extends IntentionalStateSpacePlanner<IntentionalProblem> {
 		return arguments;
 	}
 	
-	private static final Heuristic<GlaiveSearchNode> GLAIVE_HEURISTIC = new BestFirst<>(new GlaiveHeuristic<>());
-	
-	private static final Comparator<GlaiveSearchNode> GLAIVE_TIE_BREAKER = new GlaiveTieBreaker<GlaiveSearchNode>();
+	// SCRIPTIE changed visibility to protected to give Bardiche access
+	protected static final Heuristic<GlaiveSearchNode> GLAIVE_HEURISTIC = new BestFirst<>(new GlaiveHeuristic<>());
+
+	// SCRIPTIE changed visibility to protected to give Bardiche access
+	protected static final Comparator<GlaiveSearchNode> GLAIVE_TIE_BREAKER = new GlaiveTieBreaker<GlaiveSearchNode>();
 
 	@Override
 	public Search search(ArgumentMap arguments){

@@ -1,0 +1,13 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.planware.IntentionalDomain;
+import com.stephengware.java.planware.IntentionalProblem;
+import com.stephengware.java.planware.io.Field;
+
+public class Templates {
+	public static abstract class BardicheProblemTemplate extends com.stephengware.java.planware.io.Templates.ProblemTemplate{
+		public static final Field<IntentionalProblem, IntentionalDomain> DOMAIN = new Field<>(IntentionalProblem.class, "domain", IntentionalDomain.class);
+	
+	
+	}
+}

@@ -1,0 +1,7 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.glaive.GlaivePlan;
+
+public class BardichePlan extends GlaivePlan {
+
+}

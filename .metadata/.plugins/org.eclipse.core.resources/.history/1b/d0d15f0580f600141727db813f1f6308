@@ -1,0 +1,19 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.glaive.Glaive;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.IntentionalDomain;
+import com.stephengware.java.planware.IntentionalProblem;
+import com.stephengware.java.planware.Universe;
+import com.stephengware.java.planware.io.pddl.PDDLManager;
+import com.stephengware.java.planware.logic.Expression;
+
+public class BardicheProblem extends IntentionalProblem {
+
+	public BardicheProblem(String name, IntentionalDomain domain,
+			String protagonist, Universe universe, 
+			Expression initialState, Expression goal) {
+		super(name, domain, universe, initialState, goal);
+
+	}
+}

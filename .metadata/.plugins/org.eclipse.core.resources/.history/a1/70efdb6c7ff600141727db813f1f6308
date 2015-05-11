@@ -1,0 +1,18 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.glaive.Glaive;
+import com.stephengware.java.planware.Argument;
+import com.stephengware.java.planware.ArgumentMap;
+
+public class Bardiche extends Glaive {
+	
+	public static final Argument<BardicheProblem> PROBLEM = new Argument.ParsedArgument<BardicheProblem>(
+			Glaive.PROBLEM.name, Glaive.PROBLEM.abbreviation, BardicheProblem.class) {
+		
+		@Override
+		protected BardicheProblem getValue(Object object, ArgumentMap arguments){
+			arguments.get(DOMAIN);
+			return super.getValue(object, arguments);
+		}
+	};
+}

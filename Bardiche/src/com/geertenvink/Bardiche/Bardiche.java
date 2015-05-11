@@ -1,71 +1,62 @@
 package com.geertenvink.Bardiche;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
+import com.stephengware.java.glaive.DefaultGlaiveSearch;
 import com.stephengware.java.glaive.Glaive;
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.glaive.GlaiveRelaxedPlanBuilder;
+import com.stephengware.java.glaive.GlaiveSearchNode;
+import com.stephengware.java.glaive.PartialPlan;
+import com.stephengware.java.planware.Argument;
 import com.stephengware.java.planware.ArgumentMap;
-import com.stephengware.java.planware.Plan;
+import com.stephengware.java.planware.AxiomTree;
+import com.stephengware.java.planware.IntentionalProblem;
 import com.stephengware.java.planware.Search;
-import com.stephengware.java.planware.Result;
-import com.stephengware.java.planware.io.BuildException;
-import com.stephengware.java.planware.io.pddl.PDDLManager;
+import com.stephengware.java.planware.ig.IntentionGraph;
+import com.stephengware.java.planware.search.HeuristicSearch;
+import com.stephengware.java.planware.ss.IntentionalStateSpace;
 
-public class Bardiche {
-
-	public static void main(String[] args) {
-		// Create an instance of Glaive
-		Glaive planner = new Glaive();
-		ArgumentMap arguments = planner.makeArguments();
+public class Bardiche extends Glaive {
+	
+	public static final Argument<BardicheProblem> PROBLEM = new Argument.ParsedArgument<BardicheProblem>(
+			Glaive.PROBLEM.name, Glaive.PROBLEM.abbreviation, BardicheProblem.class) {
 		
-		// parse domain and problem to be solved
-		String domainName = "tests/door-domain.pddl";
-		String problemName = "tests/door-problem.pddl";
-		
-		if (args.length > 0) {
-			 domainName = args[0];
+		@Override
+		protected BardicheProblem getValue(Object object, ArgumentMap arguments){
+			// make sure the domain is parsed before the problem 			
+			arguments.get(DOMAIN);
+			return super.getValue(object, arguments);
 		}
-		if (args.length > 1) {
-			problemName = args[1];
-		}
-		
-		// override the normal output to our special BardichePlan format
-		PDDLManager manager = (PDDLManager) arguments.get(Glaive.IO_MANAGER);
-		manager.install(new BardichePlanExtension());;
-		
-		// set the domain and problem
-		arguments.set(Glaive.DOMAIN, domainName);
-		arguments.set(Glaive.PROBLEM, problemName);
-		
-		// generate a full plan
-		Search search = planner.search(arguments);
-		Result result = search.getNextPlan(arguments);
-		
-		if (result.getSuccess()) {
-			System.out.println("solution found");
-			Plan plan = result.getPlan();
-			
-			System.out.println(plan);
-			
-			PrintWriter out = new PrintWriter(System.out);
-			try {
-				arguments.get(Glaive.IO_MANAGER).write(plan, out);
-			} catch (BuildException be) {
-				System.out.println("build exception:");
-				System.out.println(be.getMessage());
-				System.out.println(be.getStackTrace());
-			} catch (IOException e) {
-				System.out.println("IO exception:");
-				System.out.println(e.getMessage());
-				System.out.println(e.getStackTrace());
-			}
-			out.flush();
-			System.out.println();
-		} else {
-			System.out.println("no succesful plan");
-		}
-		
-		System.out.println("finished execution");
+	};
+	
+	public Bardiche() {
+		super();
+		this.io.install(BardicheRequirement.BARDICHE);
+		this.io.install(new BardichePlanExtension());
 	}
-
+	
+	public ArgumentMap makeArguments(){
+		ArgumentMap arguments = super.makeArguments();
+		
+		return arguments;
+	}
+	
+	@Override
+	public Search search(ArgumentMap arguments) {
+		BardicheProblem problem = arguments.get(PROBLEM);
+		
+		return super.search(arguments);
+		
+		/*boolean debug = arguments.get(DEBUG);
+		IntentionalStateSpace space = arguments.get(STATE_SPACE);
+		AxiomTree axiomTree = arguments.get(AXIOM_TREE);
+		PartialPlan remaining = arguments.get(PARTIAL_PLAN);
+		
+		GlaivePlan rootPlan = new BardichePlan(problem.name + "-solution", problem, axiomTree);
+		GlaiveSearchNode rootNode = new GlaiveSearchNode(rootPlan, remaining);
+		GlaiveRelaxedPlanBuilder relaxedPlanner = new GlaiveRelaxedPlanBuilder(new IntentionGraph(space), problem.getGoal());
+		relaxedPlanner.evaluate(rootNode);
+		HeuristicSearch<GlaiveSearchNode> strategy = new HeuristicSearch<GlaiveSearchNode>(GLAIVE_HEURISTIC, GLAIVE_TIE_BREAKER, rootNode, debug);
+		
+		return new DefaultGlaiveSearch(strategy, relaxedPlanner, problem.getGoal());*/
+	}
 }

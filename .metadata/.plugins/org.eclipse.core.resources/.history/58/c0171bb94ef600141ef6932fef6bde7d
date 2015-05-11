@@ -1,0 +1,17 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.planware.io.pddl.ProblemExtension;
+
+public class BardicheProblemExtension extends ProblemExtension {
+	public static final String PROTAGONIST_IDENTIFIER = "protagonist";
+	
+	public BardicheProblemExtension() {
+		super();
+	}
+	
+	@Override
+	public void parse(SExpression document, Parser<SExpression> parser) throws ParseException {
+		parseProtagonist(document.asList(), parser);
+		super.parse(document, parser);
+	}
+}
