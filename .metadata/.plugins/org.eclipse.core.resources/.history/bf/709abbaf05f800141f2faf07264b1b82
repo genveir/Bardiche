@@ -3,19 +3,16 @@ package com.geertenvink.Bardiche;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import com.stephengware.java.glaive.Glaive;
+import com.stephengware.java.glaive.GlaivePlan;
 import com.stephengware.java.planware.ArgumentMap;
-import com.stephengware.java.planware.Plan;
-import com.stephengware.java.planware.Search;
 import com.stephengware.java.planware.Result;
+import com.stephengware.java.planware.Search;
 import com.stephengware.java.planware.io.BuildException;
-import com.stephengware.java.planware.io.pddl.PDDLManager;
 
-public class Bardiche {
-
+public class Main {
 	public static void main(String[] args) {
 		// Create an instance of Glaive
-		Glaive planner = new Glaive();
+		Bardiche planner = new Bardiche();
 		ArgumentMap arguments = planner.makeArguments();
 		
 		// parse domain and problem to be solved
@@ -29,14 +26,9 @@ public class Bardiche {
 			problemName = args[1];
 		}
 		
-		// override the normal output to our special BardichePlan format
-		PDDLManager manager = (PDDLManager) arguments.get(Glaive.IO_MANAGER);
-		manager.install(BardicheRequirement.BARDICHE);
-		manager.install(new BardichePlanExtension());;
-		
 		// set the domain and problem
-		arguments.set(Glaive.DOMAIN, domainName);
-		arguments.set(Glaive.PROBLEM, problemName);
+		arguments.set(Bardiche.DOMAIN, domainName);
+		arguments.set(Bardiche.PROBLEM, problemName);
 		
 		// generate a full plan
 		Search search = planner.search(arguments);
@@ -44,13 +36,15 @@ public class Bardiche {
 		
 		if (result.getSuccess()) {
 			System.out.println("solution found");
-			Plan plan = result.getPlan();
+			GlaivePlan plan = (GlaivePlan) result.getPlan();
 			
-			System.out.println(plan);
+			BardichePlan bardichePlan = new BardichePlan(plan, arguments);
+			
+			System.out.println(bardichePlan);
 			
 			PrintWriter out = new PrintWriter(System.out);
 			try {
-				arguments.get(Glaive.IO_MANAGER).write(plan, out);
+				arguments.get(Bardiche.IO_MANAGER).write(bardichePlan, out);
 			} catch (BuildException be) {
 				System.out.println("build exception:");
 				System.out.println(be.getMessage());
@@ -68,5 +62,4 @@ public class Bardiche {
 		
 		System.out.println("finished execution");
 	}
-
 }

@@ -1,16 +1,8 @@
 package com.geertenvink.Bardiche;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import com.stephengware.java.glaive.Glaive;
 import com.stephengware.java.planware.Argument;
 import com.stephengware.java.planware.ArgumentMap;
-import com.stephengware.java.planware.Plan;
-import com.stephengware.java.planware.Search;
-import com.stephengware.java.planware.Result;
-import com.stephengware.java.planware.io.BuildException;
-import com.stephengware.java.planware.io.pddl.PDDLManager;
 
 public class Bardiche extends Glaive {
 	
@@ -18,9 +10,16 @@ public class Bardiche extends Glaive {
 			Glaive.PROBLEM.name, Glaive.PROBLEM.abbreviation, BardicheProblem.class) {
 		
 		@Override
-		protected BardicheProblem getValue(Object value, ArgumentMap arguments){
+		protected BardicheProblem getValue(Object object, ArgumentMap arguments){
+			// make sure the domain is parsed before the problem 			
 			arguments.get(DOMAIN);
 			return super.getValue(object, arguments);
 		}
 	};
+	
+	public Bardiche() {
+		super();
+		this.io.install(BardicheRequirement.BARDICHE);
+		this.io.install(new BardichePlanExtension());
+	}
 }

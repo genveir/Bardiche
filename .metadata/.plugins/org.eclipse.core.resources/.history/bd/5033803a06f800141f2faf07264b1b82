@@ -12,9 +12,7 @@ import com.stephengware.java.planware.io.Parser;
 import com.stephengware.java.planware.io.SimpleExtension;
 import com.stephengware.java.planware.io.Templates;
 import com.stephengware.java.planware.io.pddl.sexp.List;
-import com.stephengware.java.planware.io.pddl.sexp.Node;
 import com.stephengware.java.planware.io.pddl.sexp.SExpression;
-import com.stephengware.java.planware.logic.Constant;
 import com.stephengware.java.planware.logic.Expression;
 
 public class BardicheProblemExtension extends SimpleExtension<SExpression, BardicheProblem> {
@@ -36,9 +34,8 @@ public class BardicheProblemExtension extends SimpleExtension<SExpression, Bardi
 		succeed(new BardicheProblem(name, (IntentionalDomain) domain, protagonist, universe, initialState, goal));
 	}
 	
-	protected Constant parseProtagonist(List document, Parser<SExpression> parser) throws ParseException {
-		Node node = document.requireListStartingWith(PROTAGONIST_IDENTIFIER).asList(2).getChild(1);
-		Constant protagonist = parser.parseOrFail(node, Constant.class);
+	protected String parseProtagonist(List document, Parser<SExpression> parser) throws ParseException {
+		String protagonist = document.requireListStartingWith(PROTAGONIST_IDENTIFIER).asList(2).getChild(1).asSymbol().content;
 		parser.define(ProtagonistTemplate.PROTAGONIST, protagonist);
 		return protagonist;
 	}

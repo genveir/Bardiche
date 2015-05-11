@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 
 import com.stephengware.java.glaive.GlaivePlan;
 import com.stephengware.java.planware.ArgumentMap;
-import com.stephengware.java.planware.Plan;
 import com.stephengware.java.planware.Result;
 import com.stephengware.java.planware.Search;
 import com.stephengware.java.planware.io.BuildException;
@@ -36,7 +35,6 @@ public class Main {
 		Result result = search.getNextPlan(arguments);
 		
 		if (result.getSuccess()) {
-			System.out.println("solution found");
 			GlaivePlan plan = (GlaivePlan) result.getPlan();
 			
 			BardichePlan bardichePlan = new BardichePlan(plan, arguments);
@@ -60,7 +58,5 @@ public class Main {
 		} else {
 			System.out.println("no succesful plan");
 		}
-		
-		System.out.println("finished execution");
 	}
 }

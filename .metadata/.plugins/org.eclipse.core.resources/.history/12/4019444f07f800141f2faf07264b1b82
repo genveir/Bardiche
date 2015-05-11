@@ -24,25 +24,16 @@ public class BardichePlanExtension implements Extension<SExpression, SExpression
 	
 	@Override
 	public SExpression build(BardichePlan plan, SExpression document, Builder<SExpression> builder) throws BuildException {
-		document = new List("Bardiche Plan", new List(":protagonist", plan.problem.protagonist.name));
+		document = new List("Bardiche Plan", new List(":protagonist", plan.problem.protagonist));
 		((List) document).setFormatRule(FormatRule.PDDL_DOCUMENT);
 		buildSteps(plan, (List) document, builder);
 		return document;
 	}
 	
 	protected void buildSteps(BardichePlan plan, List document, Builder<SExpression> builder) throws BuildException {
-		Boolean suggestionDone = false;
-		
 		List stepsList = new List(":steps");
 		stepsList.setFormatRule(FormatRule.TWO_ELEMENTS_ON_FIRST_LINE_THEN_ONE_PER_LINE);
 		for(StepEvent step : Utilities.getSteps(plan)){
-			if (!suggestionDone && step.source.agents.contains(plan.protagonist)) {
-				document.addChild(stepsList);
-				stepsList = new List(":suggested");
-				stepsList.setFormatRule(FormatRule.TWO_ELEMENTS_ON_FIRST_LINE_THEN_ONE_PER_LINE);
-				suggestionDone = true;
-			}
-			
 			if(Utilities.isExecuted(step, plan))
 				stepsList.addChild(builder.build(step.source));
 		}

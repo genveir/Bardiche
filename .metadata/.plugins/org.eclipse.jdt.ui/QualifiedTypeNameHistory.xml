@@ -40,4 +40,6 @@
 <fullyQualifiedTypeName name="com.stephengware.java.planware.IntentionalProblem"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.ArgumentMap"/>
 <fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaivePlan"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.Node"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Constant"/>
 </qualifiedTypeNameHistroy>

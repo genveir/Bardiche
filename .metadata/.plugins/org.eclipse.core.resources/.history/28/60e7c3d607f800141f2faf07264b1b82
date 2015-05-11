@@ -31,16 +31,12 @@ public class BardichePlanExtension implements Extension<SExpression, SExpression
 	}
 	
 	protected void buildSteps(BardichePlan plan, List document, Builder<SExpression> builder) throws BuildException {
-		Boolean suggestionDone = false;
-		
 		List stepsList = new List(":steps");
 		stepsList.setFormatRule(FormatRule.TWO_ELEMENTS_ON_FIRST_LINE_THEN_ONE_PER_LINE);
 		for(StepEvent step : Utilities.getSteps(plan)){
-			if (!suggestionDone && step.source.agents.contains(plan.protagonist)) {
+			if (step.source.agents.contains(plan.protagonist)) {
 				document.addChild(stepsList);
 				stepsList = new List(":suggested");
-				stepsList.setFormatRule(FormatRule.TWO_ELEMENTS_ON_FIRST_LINE_THEN_ONE_PER_LINE);
-				suggestionDone = true;
 			}
 			
 			if(Utilities.isExecuted(step, plan))
