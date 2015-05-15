@@ -1,0 +1,8 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.planware.io.SimpleExtension;
+import com.stephengware.java.planware.io.pddl.sexp.SExpression;
+
+public class BardicheDomainExtension extends SimpleExtension<SExpression, BardicheDomain> {
+	
+}

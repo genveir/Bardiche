@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;result&apos; in &apos;com.geertenvink.Bardiche.BardicheDomainExtension.parseOperators(...)&apos; to &apos;bardicheOperators&apos;&#x0D;&#x0A;- Original project: &apos;Bardiche&apos;&#x0D;&#x0A;- Original element: &apos;com.geertenvink.Bardiche.BardicheDomainExtension.parseOperators(IntentionalOperator[]).result&apos;&#x0D;&#x0A;- Renamed element: &apos;result&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;result&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;com.geertenvink.Bardiche{BardicheDomainExtension.java[BardicheDomainExtension~parseOperators~\[QIntentionalOperator;@result!1610!1676!1629!1634!\[QBardicheOperator;!0!false" name="bardicheOperators" references="true" stamp="1431686606775" version="1.0"/>
+</session>

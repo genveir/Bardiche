@@ -1,0 +1,10 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.planware.IntentionalDomain;
+import com.stephengware.java.planware.util.ImmutableSet;
+
+public class BardicheDomain extends IntentionalDomain {
+	
+	public final ImmutableSet<BardicheOperator> operators;
+	
+}

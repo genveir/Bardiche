@@ -1,0 +1,43 @@
+package com.geertenvink.Bardiche;
+
+import java.util.ArrayList;
+
+import com.stephengware.java.cpocl.Utilities;
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.glaive.StepEvent;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.logic.Constant;
+
+public class BardichePlan extends GlaivePlan {
+	public final Constant protagonist;
+	public final BardicheProblem problem;
+	public final boolean complete;
+	private final int completedSteps;
+	
+	public BardichePlan(GlaivePlan plan, ArgumentMap arguments, int completedSteps) {
+		super(plan);
+		problem = arguments.get(Bardiche.PROBLEM);
+		protagonist = problem.protagonist;
+		complete = false; //SCRIPTIE of course this is not right
+		this.completedSteps = completedSteps;
+	}
+	
+	public ArrayList<BardicheStep> getExecutedSteps() {
+		int numSteps = 0;
+		ArrayList<BardicheStep> steps = new ArrayList<BardicheStep>();
+		
+		for(StepEvent step : Utilities.getSteps(this)){
+			BardicheStep bardicheStep = (BardicheStep) step.source;
+			numSteps++;
+			
+			if (!Utilities.isExecuted(step, this)) continue;
+			
+			if (completedSteps <= numSteps || !step.source.agents.contains(protagonist)) {
+				steps.add(bardicheStep);
+			}
+			else break;
+		}
+		
+		return steps;
+	}
+}

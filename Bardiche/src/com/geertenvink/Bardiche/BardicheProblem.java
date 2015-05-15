@@ -1,9 +1,6 @@
 package com.geertenvink.Bardiche;
 
-import com.stephengware.java.planware.IntentionalDomain;
-import com.stephengware.java.planware.IntentionalOperator;
 import com.stephengware.java.planware.IntentionalProblem;
-import com.stephengware.java.planware.IntentionalStep;
 import com.stephengware.java.planware.Problem;
 import com.stephengware.java.planware.Universe;
 import com.stephengware.java.planware.logic.Constant;
@@ -15,12 +12,14 @@ import com.stephengware.java.planware.util.ImmutableSet;
 
 public class BardicheProblem extends IntentionalProblem {
 	public final Constant protagonist;
+	public final BardicheDomain domain;
 	
-	public BardicheProblem(String name, IntentionalDomain domain,
+	public BardicheProblem(String name, BardicheDomain domain,
 			Constant protagonist, Universe universe, 
 			Expression initialState, Expression goal) {
 		super(name, domain, universe, initialState, goal);
 		this.protagonist = protagonist;
+		this.domain = domain;
 	}
 	
 	@Override
@@ -31,7 +30,7 @@ public class BardicheProblem extends IntentionalProblem {
 	@Override
 	public BardicheProblem substitute(Substitution substitution){
 		boolean different = false;
-		IntentionalDomain domain = this.domain.substitute(substitution);
+		BardicheDomain domain = this.domain.substitute(substitution);
 		if(domain != this.domain)
 			different = true;
 		Universe universe = this.universe.substitute(substitution);
@@ -50,12 +49,16 @@ public class BardicheProblem extends IntentionalProblem {
 	}
 	
 	@Override
-	public IntentionalStep makeStep(String operatorName, Entity...arguments){
-		IntentionalOperator operator = domain.getOperator(operatorName);
+	public BardicheStep makeStep(String operatorName, Entity...arguments){
+		BardicheOperator operator = domain.getOperator(operatorName);
 		Substitution substitution = getSubstitution(operator.parameters, arguments);
 		Constant[] agents = new Constant[operator.agents.length];
-		for(int i=0; i<agents.length; i++)
+		Constant initiator = null;
+		for(int i=0; i<agents.length; i++) {
 			agents[i] = substitution.substitute(operator.agents.get(i), Constant.class);
-		return new IntentionalStep(operator, new ImmutableArray<Entity>(arguments), operator.precondition.substitute(substitution), operator.effect.substitute(substitution), new ImmutableSet<>(agents));
+			if (operator.agents.get(i).equals(operator.initiator)) initiator = agents[i]; 
+		}
+		return new BardicheStep(operator, new ImmutableArray<Entity>(arguments), operator.precondition.substitute(substitution), 
+				operator.effect.substitute(substitution), new ImmutableSet<>(agents), initiator);
 	}
 }

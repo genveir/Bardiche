@@ -35,7 +35,7 @@ public class GlaiveSearchNode extends StateSpaceSearchNode {
 		else
 			this.remaining = parent.remaining;
 	}
-	//SCRIPTIE BardicheSearchNode maken
+	
 	public GlaiveSearchNode(GlaivePlan root, PartialPlan remaining){
 		this.parent = null;
 		this.plan = root;

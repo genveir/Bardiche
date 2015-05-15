@@ -1,0 +1,18 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.logic.Constant;
+
+public class BardichePlan extends GlaivePlan {
+	public final Constant protagonist;
+	public final BardicheProblem problem;
+	public final boolean complete;
+	
+	public BardichePlan(GlaivePlan plan, ArgumentMap arguments) {
+		super(plan);
+		problem = arguments.get(Bardiche.PROBLEM);
+		protagonist = problem.protagonist;
+		complete = false; //SCRIPTIE of course this is not right
+	}
+}

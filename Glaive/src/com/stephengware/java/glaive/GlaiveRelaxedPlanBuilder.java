@@ -27,8 +27,7 @@ public class GlaiveRelaxedPlanBuilder extends com.stephengware.java.planware.ff.
 	
 	private static final CountableIterable<? extends IntentionalStep> NO_PLAN = new ArrayIterable<IntentionalStep>(new IntentionalStep[0]);
 	
-	//SCRIPTIE changed visibility to public to give Bardiche access
-	public final void evaluate(GlaiveSearchNode node){
+	protected final void evaluate(GlaiveSearchNode node){
 		initialize(node.getState());
 		CountableIterable<? extends IntentionalStep> plan;
 		if(satisfy(goal))

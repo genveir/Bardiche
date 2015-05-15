@@ -1,7 +1,7 @@
 package com.geertenvink.Bardiche;
 
-import com.stephengware.java.cpocl.Utilities;
-import com.stephengware.java.glaive.StepEvent;
+import java.util.ArrayList;
+
 import com.stephengware.java.planware.io.BuildException;
 import com.stephengware.java.planware.io.Builder;
 import com.stephengware.java.planware.io.DocumentBuilder;
@@ -31,21 +31,29 @@ public class BardichePlanExtension implements Extension<SExpression, SExpression
 	}
 	
 	protected void buildSteps(BardichePlan plan, List document, Builder<SExpression> builder) throws BuildException {
-		Boolean suggestionDone = false;
+		List stepsList = makeNewList(":steps");
+		ArrayList<BardicheStep> steps = plan.getExecutedSteps();
 		
-		List stepsList = new List(":steps");
-		stepsList.setFormatRule(FormatRule.TWO_ELEMENTS_ON_FIRST_LINE_THEN_ONE_PER_LINE);
-		for(StepEvent step : Utilities.getSteps(plan)){
-			if (!suggestionDone && step.source.agents.contains(plan.protagonist)) {
+		for (int n = 0; n < steps.size(); n++) {
+			if (!plan.complete && n == steps.size() - 1) {
 				document.addChild(stepsList);
-				stepsList = new List(":suggested");
-				stepsList.setFormatRule(FormatRule.TWO_ELEMENTS_ON_FIRST_LINE_THEN_ONE_PER_LINE);
-				suggestionDone = true;
+				stepsList = makeNewList(":suggested");
 			}
 			
-			if(Utilities.isExecuted(step, plan))
-				stepsList.addChild(builder.build(step.source));
+			addStep(stepsList, steps.get(n), builder);
 		}
 		document.addChild(stepsList);
+	}
+	
+	private List makeNewList(String title) throws BuildException {
+		List stepsList = new List(title);
+		stepsList.setFormatRule(FormatRule.TWO_ELEMENTS_ON_FIRST_LINE_THEN_ONE_PER_LINE);
+		return stepsList;
+	}
+	
+	private void addStep(List stepsList, BardicheStep step, Builder<SExpression> builder) throws BuildException {
+		Object initiator = "-";
+		if (step.initiator != null) initiator = builder.build(step.initiator);
+		stepsList.addChild(new List(initiator, builder.build(step)));
 	}
 }
