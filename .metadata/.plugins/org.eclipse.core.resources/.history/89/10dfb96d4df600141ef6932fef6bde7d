@@ -1,7 +1,0 @@
-package com.geertenvink.Bardiche;
-
-import com.stephengware.java.planware.io.pddl.ProblemExtension;
-
-public class BardicheProblemExtension extends ProblemExtension {
-
-}

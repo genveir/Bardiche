@@ -1,7 +1,0 @@
-package com.geertenvink.Bardiche;
-
-import com.stephengware.java.planware.IntentionalProblem;
-
-public class BardicheProblem extends IntentionalProblem {
-
-}

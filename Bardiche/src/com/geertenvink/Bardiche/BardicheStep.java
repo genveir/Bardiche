@@ -16,5 +16,4 @@ public class BardicheStep extends IntentionalStep {
 		super(operator, arguments, precondition, effect, agents);
 		this.initiator = initiator;
 	}
-	
 }

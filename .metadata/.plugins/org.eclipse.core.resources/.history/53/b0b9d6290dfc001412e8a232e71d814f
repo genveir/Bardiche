@@ -1,0 +1,183 @@
+package com.geertenvink.Bardiche;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import com.stephengware.java.glaive.DefaultGlaiveSearch;
+import com.stephengware.java.glaive.Glaive;
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.glaive.GlaiveSearchNode;
+import com.stephengware.java.planware.Argument;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.Plan;
+import com.stephengware.java.planware.Result;
+import com.stephengware.java.planware.Search;
+import com.stephengware.java.planware.ig.IntentionGraph;
+import com.stephengware.java.planware.io.BuildException;
+import com.stephengware.java.planware.io.pddl.PDDLManager;
+import com.stephengware.java.planware.search.HeuristicSearch;
+import com.stephengware.java.planware.ss.IntentionalStateSpace;
+
+/** Bardiche is an extension of Glaive which ensures a protagonist will be read from
+  * the problem file, and that the I/O extensions required to input such problem files and
+  * to output plans in the special Bardiche format will be installed.
+  */ 
+public class Bardiche extends Glaive {
+	private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	
+	public static final Argument<BardicheProblem> PROBLEM = new Argument.ParsedArgument<BardicheProblem>(
+			Glaive.PROBLEM.name, Glaive.PROBLEM.abbreviation, BardicheProblem.class) {
+		
+		@Override
+		protected BardicheProblem getValue(Object object, ArgumentMap arguments){
+			// make sure the domain is parsed before the problem 			
+			arguments.get(DOMAIN);
+			return super.getValue(object, arguments);
+		}
+	};
+	
+	public static final Argument<BardicheDomain> DOMAIN = new Argument.ParsedArgument<BardicheDomain>(
+			Glaive.DOMAIN.name, Glaive.DOMAIN.abbreviation, BardicheDomain.class);
+	
+	public ArgumentMap makeArguments() {
+		ArgumentMap arguments = super.makeArguments();
+		PDDLManager io = (PDDLManager) arguments.get(IO_MANAGER);
+		io.install(BardicheRequirement.BARDICHE);
+		io.install(new BardichePlanExtension());
+		
+		return arguments;
+	}
+	
+	public void generate(ArgumentMap arguments) {
+		arguments.get(PROBLEM);
+		
+		Search search = search(arguments);
+		Result result = search.getNextPlan(arguments);
+		
+		BardichePlan bardichePlan = null;
+		int numSteps = 0;
+		do {
+			if (result.getSuccess()) {
+				GlaivePlan plan = (GlaivePlan) result.getPlan();
+				
+				bardichePlan = new BardichePlan(plan, arguments, numSteps);
+				
+				printPlan(arguments, bardichePlan);
+				
+				if (bardichePlan.complete) {
+					System.out.println("the end");
+				}
+				else {
+					ArrayList<BardicheStep> executedSteps = bardichePlan.executedSteps;
+					
+					numSteps = executedSteps.size() - 1;
+					
+					BardicheStep lastStep = executedSteps.get(numSteps);
+					if (lastStep.initiator == bardichePlan.protagonist)
+						System.out.print("take");
+					else System.out.print("allow");
+					System.out.println(" action (" + lastStep + ")? (y/n)");
+					
+					GlaivePlan planAfterUserAction = getPlanAfterUserAction(bardichePlan, arguments);
+					if (planAfterUserAction != null) {
+						plan = planAfterUserAction;
+					} else {
+						System.out.println("continuing with old plan");
+					}
+					numSteps++;
+				}
+			}
+		} while (!bardichePlan.complete);
+	
+		try {
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private GlaivePlan getPlanAfterUserAction(BardichePlan bardichePlan, ArgumentMap arguments) {
+		switch(getInputString()) {
+			case "y":
+				return null;
+			default:
+				System.out.println("determine new action");
+				return chooseAction(bardichePlan, arguments);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private GlaivePlan chooseAction(BardichePlan bardichePlan, ArgumentMap arguments) {
+		GlaivePlan executedPlan = bardichePlan.getExecutedPlan(arguments, false);
+		
+		// SCRIPTIE kan dit? (probably wel want partial plan is altijd leeg)
+		GlaiveSearchNode current = new GlaiveSearchNode(executedPlan, arguments.get(PARTIAL_PLAN));
+		
+		BardicheProblem problem = arguments.get(PROBLEM);
+		IntentionalStateSpace space = arguments.get(STATE_SPACE);
+		BardicheRelaxedPlanBuilder relaxedPlanner = new BardicheRelaxedPlanBuilder(new IntentionGraph(space), problem.getGoal());
+		relaxedPlanner.evaluate2(current);
+		Iterator<BardicheStep> steps = (Iterator<BardicheStep>) relaxedPlanner.getNextSteps();
+		ArrayList<BardicheStep> possibleActions = new ArrayList<BardicheStep>();
+		while (steps.hasNext()) {
+			BardicheStep step = steps.next();
+			
+			if (step.initiator == bardichePlan.protagonist) {
+				System.out.println(possibleActions.size() + ") " + step);
+				possibleActions.add(step);
+			}
+		}
+		
+		int choice;
+		try {
+			choice = Integer.parseInt(getInputString());
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		executedPlan.addStep(possibleActions.get(choice));
+		GlaiveSearchNode executed = new GlaiveSearchNode(executedPlan, arguments.get(PARTIAL_PLAN));
+		BardicheRelaxedPlanBuilder searchPlanner = new BardicheRelaxedPlanBuilder(new IntentionGraph(space), problem.getGoal());
+		searchPlanner.evaluate2(executed);
+		HeuristicSearch<GlaiveSearchNode> strategy = new HeuristicSearch<GlaiveSearchNode>(GLAIVE_HEURISTIC, GLAIVE_TIE_BREAKER, executed, false);
+		
+		// SCRIPTIE dit moet beter
+		GlaivePlan plan = null;
+		Result result = new DefaultGlaiveSearch(strategy, searchPlanner, problem.getGoal()).getNextPlan(arguments);
+		if (result.getSuccess()){
+			plan = (GlaivePlan) result.getPlan();
+		} else {
+			System.out.println("no valid plan found with this action in the lead");
+		}
+		
+		return plan;
+	}
+	
+	private void printPlan(ArgumentMap arguments, Plan plan) {
+		try {
+			PrintWriter out = new PrintWriter(System.out);
+			arguments.get(Bardiche.IO_MANAGER).write(plan, out);
+			out.flush();
+		} catch (BuildException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println();
+	}
+	
+	private String getInputString() {
+		try {
+			String input = reader.readLine();
+			return input;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+}

@@ -1,1 +1,8 @@
 1431686606775	Rename local variable 'result'
+1431770090021	Rename local variable 'nextAction'
+1431770111533	Rename method 'getNextAction'
+1431806125562	Delete element
+1431854970661	Delete element
+1431855177103	Rename type 'InputHandler'
+1431855428555	Move compilation units
+1431856624854	Move compilation unit

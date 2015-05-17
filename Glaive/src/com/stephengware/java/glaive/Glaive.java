@@ -53,7 +53,7 @@ public class Glaive extends IntentionalStateSpacePlanner<IntentionalProblem> {
 	}
 	
 	private static final Heuristic<GlaiveSearchNode> GLAIVE_HEURISTIC = new BestFirst<>(new GlaiveHeuristic<>());
-
+	
 	private static final Comparator<GlaiveSearchNode> GLAIVE_TIE_BREAKER = new GlaiveTieBreaker<GlaiveSearchNode>();
 
 	@Override

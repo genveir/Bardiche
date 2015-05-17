@@ -1,7 +1,0 @@
-package com.geertenvink.Bardiche;
-
-import com.stephengware.java.planware.io.pddl.glaive.GlaivePlanExtension;
-
-public class BardichePlanExtension extends GlaivePlanExtension {
-
-}

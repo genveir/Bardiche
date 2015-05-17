@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.stephengware.java.glaive.Glaive"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.search.Result"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.Plan"/>
-<fullyQualifiedTypeName name="java.io.PrintWriter"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.io.Builder"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.BuildException"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.List"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.FormatRule"/>
@@ -18,19 +12,11 @@
 <fullyQualifiedTypeName name="com.stephengware.java.planware.Argument"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.Search"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.ss.IntentionalStateSpace"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.AxiomTree"/>
 <fullyQualifiedTypeName name="com.stephengware.java.glaive.PartialPlan"/>
-<fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaiveSearchNode"/>
-<fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaiveRelaxedPlanBuilder"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.ig.IntentionGraph"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.search.HeuristicSearch"/>
-<fullyQualifiedTypeName name="com.stephengware.java.glaive.DefaultGlaiveSearch"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.Argument.ParsedArgument"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.Problem"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Substitution"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.IntentionalProblem"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.ArgumentMap"/>
-<fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaivePlan"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.Node"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.IOManager"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.PDDLManager"/>
@@ -47,14 +33,31 @@
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.SimpleExtension"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.SExpression"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Variable"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Expression"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Term"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.Parser"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.ParseException"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.intp.IntentionalOperatorExtension"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Constant"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.stephengware.java.glaive.AgentGoal"/>
+<fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaiveRelaxedPlanBuilder"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.util.ArrayIterator"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.IntentionalStep"/>
+<fullyQualifiedTypeName name="javax.swing.text.html.HTMLDocument.Iterator"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.search.HeuristicSearch"/>
+<fullyQualifiedTypeName name="com.stephengware.java.glaive.DefaultGlaiveSearch"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.Plan"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.AxiomTree"/>
+<fullyQualifiedTypeName name="com.stephengware.java.glaive.CausalState"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Term"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Expression"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.State"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.ArgumentMap"/>
+<fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaivePlan"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.ig.IntentionGraph"/>
+<fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaiveSearchNode"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
-<fullyQualifiedTypeName name="com.stephengware.java.glaive.AgentGoal"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.geertenvink.Bardiche.io.IOHandler"/>
 </qualifiedTypeNameHistroy>
