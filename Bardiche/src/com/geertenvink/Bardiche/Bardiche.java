@@ -15,7 +15,7 @@ import com.stephengware.java.planware.io.pddl.PDDLManager;
   * the problem file, and that the I/O extensions required to input such problem files and
   * to output plans in the special Bardiche format will be installed.
   */ 
-public class Bardiche extends Glaive {	
+public class Bardiche extends Glaive {
 	public static final Argument<BardicheProblem> PROBLEM = new Argument.ParsedArgument<BardicheProblem>(
 			Glaive.PROBLEM.name, Glaive.PROBLEM.abbreviation, BardicheProblem.class) {
 		
@@ -41,9 +41,14 @@ public class Bardiche extends Glaive {
 	}
 	
 	public BardichePlan generate(ArgumentMap arguments) {
-		arguments.get(PROBLEM);
+		// we need to parse the problem before Glaive does so, or it will
+		// attempt to parse it as an IntentionalProblem.
+		BardicheProblem problem = arguments.get(PROBLEM);
+		
+		System.out.println("generating solution for " + problem);
 		
 		Search search = search(arguments);
+		
 		Result result = search.getNextPlan(arguments);
 		
 		BardichePlan bardichePlan = null;
@@ -51,9 +56,11 @@ public class Bardiche extends Glaive {
 		int numSteps = 0;
 		
 		if (result.getSuccess()) {
+			GlaivePlan plan = (GlaivePlan) result.getPlan();
+			
+			IOHandler.print(arguments, plan);
+			
 			do {
-				GlaivePlan plan = (GlaivePlan) result.getPlan();
-				
 				bardichePlan = new BardichePlan(plan, arguments, numSteps);
 				
 				IOHandler.print(arguments, bardichePlan);
@@ -61,7 +68,7 @@ public class Bardiche extends Glaive {
 				
 				numSteps = bardichePlan.executedSteps.size() - 1;
 				
-				BardicheStep lastStep = bardichePlan.executedSteps.get(numSteps);
+				BardicheStep lastStep = bardichePlan.lastStep;
 				boolean protagonistIsInitiator = (lastStep.initiator == bardichePlan.protagonist);
 				
 				doContinue = queryUserToContinue(lastStep, protagonistIsInitiator);

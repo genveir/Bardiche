@@ -61,7 +61,7 @@ public class Glaive extends IntentionalStateSpacePlanner<IntentionalProblem> {
 		// Get arguments
 		IntentionalProblem problem = arguments.get(PROBLEM);
 		boolean debug = arguments.get(DEBUG);
-		IntentionalStateSpace space = arguments.get(STATE_SPACE);
+		IntentionalStateSpace space = arguments.get(STATE_SPACE);		
 		AxiomTree axiomTree = arguments.get(AXIOM_TREE);
 		PartialPlan remaining = arguments.get(PARTIAL_PLAN);
 		// Create strategy

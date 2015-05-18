@@ -20,7 +20,6 @@ import com.stephengware.java.planware.logic.Predication;
 import com.stephengware.java.planware.util.ImmutableList;
 
 public class PDDLManager extends IOManager<SExpression, SExpression> {
-
 	public static final String DEFINITION_KEYWORD = "define";
 	public static final String REQUIREMENTS_IDENTIFIER = ":requirements";
 	

@@ -7,6 +7,6 @@
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.stephengware.java.glaive.Main"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-d &quot;d:/java/eclipse/workspace/bardiche/bardiche/tests/ark-domain.pddl&quot; -p &quot;d:/java/eclipse/workspace/bardiche/bardiche/tests/ark-problem.pddl&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-d &quot;d:/java/eclipse/workspace/bardiche/bardiche/tests/dungeon-domain.pddl&quot; -p &quot;d:/java/eclipse/workspace/bardiche/bardiche/tests/dungeon-problem.pddl&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Glaive"/>
 </launchConfiguration>

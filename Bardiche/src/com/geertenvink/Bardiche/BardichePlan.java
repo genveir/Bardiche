@@ -15,6 +15,7 @@ public class BardichePlan extends GlaivePlan {
 	public final boolean complete;
 	private final int completedSteps;
 	public final ArrayList<BardicheStep> executedSteps;
+	public final BardicheStep lastStep;
 	
 	public BardichePlan(GlaivePlan plan, ArgumentMap arguments, int completedSteps) {
 		super(plan.name, arguments.get(Bardiche.PROBLEM), arguments.get(Bardiche.AXIOM_TREE));
@@ -23,15 +24,16 @@ public class BardichePlan extends GlaivePlan {
 		
 		this.completedSteps = completedSteps;
 		executedSteps = getExecutedSteps();
+		lastStep = executedSteps.get(executedSteps.size() -1);
 		complete = getComplete(arguments);
 	}
 	
 	private boolean getComplete(ArgumentMap arguments) {
-		GlaivePlan executedPlan = getExecutedPlan(arguments, false);
+		GlaivePlan executedPlan = getExecutedPlan(arguments, !lastStep.agents.contains(protagonist));
 		
 		for(AgentGoal goal : executedPlan.agentGoals()) {
 			if (goal.agent == protagonist && !executedPlan.getCurrentState().isTrue(goal.goal)) {
-				
+
 				return false;
 			}
 		}
