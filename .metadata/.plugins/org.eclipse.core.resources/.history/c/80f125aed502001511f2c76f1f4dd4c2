@@ -1,0 +1,35 @@
+package com.geertenvink.Bardiche;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import com.stephengware.java.planware.FormatException;
+import com.stephengware.java.planware.State;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.logic.NAryBooleanExpression;
+
+public class ExclusiveDisjunction extends NAryBooleanExpression {
+	protected static final String EXCLUSIVEDISJUNCTION_PREDICATE = "xor";
+	
+	public ExclusiveDisjunction(Expression...arguments) {
+		super(EXCLUSIVEDISJUNCTION_PREDICATE, flatten(arguments));
+		if (arguments.length < 2)
+			throw new FormatException(getDescription(), "2 or more arguments required.");
+	}
+	
+	private static final Expression[] flatten(Expression[] arguments) {
+		LinkedList<Expression> flat = new LinkedList<>();
+		for (Expression argument : arguments) {
+			if (argument instanceof ExclusiveDisjunction) {
+				for (Expression innerArgument : ((ExclusiveDisjunction) argument).arguments)
+					flat.add(innerArgument);
+			}
+			else flat.add(argument);
+		}
+		return flat.toArray(new Expression[flat.size()]);
+	}
+	
+	public ExclusiveDisjunction(List<? extends Expression> arguments) {
+		this(arguments.toArray(new Expression[arguments.size()]));
+	}
+}

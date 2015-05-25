@@ -1,0 +1,111 @@
+package com.geertenvink.Bardiche;
+
+import java.util.Collection;
+import java.util.Iterator;
+
+import com.stephengware.java.planware.State;
+import com.stephengware.java.planware.logic.Entity;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.logic.Substitution;
+import com.stephengware.java.planware.logic.Taxonomy;
+
+public class BardicheGoal implements Expression {
+
+	@Override
+	public Iterator<? extends Entity> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isGround() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean occurs(Entity entity) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public <E extends Entity> Collection<E> collect(Class<E> entityType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <E extends Entity> void collect(Class<E> entityType,
+			Collection<E> collection) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean subsumes(Entity other, Taxonomy taxonomy) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int compareTo(Entity arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Expression substitute(Substitution substitution) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isTestable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean test(State state) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isImposable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean impose(State state) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Expression negate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Expression toCNF() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Expression toDNF() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

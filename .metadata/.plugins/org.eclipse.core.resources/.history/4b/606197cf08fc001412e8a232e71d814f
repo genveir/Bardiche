@@ -1,9 +1,0 @@
-package com.geertenvink.Bardiche;
-
-import com.stephengware.java.glaive.CausalState;
-
-public class BardicheState extends CausalState {
-	public BardicheState(AxiomTree axiomTree, BardichePlan plan) {
-		super(axiomTree, plan);
-	}
-}

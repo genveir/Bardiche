@@ -1,19 +1,24 @@
 (define (problem dungeon)
   (:domain dungeon)
-  (:objects Mulak - personage
-            startkamer kamer2 kamer3 - kamer
-            staf - voorwerp)
+  (:objects Mulak Hans sprinkhaan1 - personage
+            startkamer - kamer
+            staf klauwen - voorwerp)
   (:protagonist Mulak)
   (:init    (in Mulak startkamer)
-            (in_vw staf startkamer)
-            (intends Mulak (in_vw staf kamer2))
-            (naast startkamer kamer2)
-            (naast startkamer kamer3)
-            (naast kamer2 kamer3)
-            (geheim kamer2)
+            (heeft Mulak staf)
+            (wapen staf)
+            (in Hans startkamer)
+            (vriend Mulak Hans)
+            (in sprinkhaan1 startkamer)
+            (heeft sprinkhaan1 klauwen)
+            (wapen klauwen)
+            (intends sprinkhaan1 (dood Hans))
   )
             
-  (:goal (and (in_vw staf kamer2)
-              (not (in_vw staf startkamer)))
+  (:goal (or 
+            (dood sprinkhaan1)
+            (and (dood Mulak)
+                 (dood Hans))
+         )
   )
 )

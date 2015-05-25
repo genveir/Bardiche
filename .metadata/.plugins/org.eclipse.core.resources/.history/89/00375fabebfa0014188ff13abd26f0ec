@@ -1,7 +1,0 @@
-package com.geertenvink.Bardiche;
-
-import com.stephengware.java.planware.IntentionalOperator;
-
-public class BardicheOperator extends IntentionalOperator {
-	
-}

@@ -14,6 +14,7 @@ public class BardicheRequirement extends Requirement {
 	private static final Extension<SExpression, SExpression> BARDICHE_PROBLEM_EXTENSION = new BardicheProblemExtension();
 	private static final Extension<SExpression, SExpression> BARDICHE_DOMAIN_EXTENSION = new BardicheDomainExtension();
 	private static final Extension<SExpression, SExpression> BARDICHE_OPERATOR_EXTENSION = new BardicheOperatorExtension();
+	private static final Extension<SExpression, SExpression> EXCLUSIVE_DISJUNCTION_EXTENSION = new ExclusiveDisjunctionExtension();
 	
 	public static final Requirement BARDICHE = new BardicheRequirement();
 	
@@ -22,7 +23,8 @@ public class BardicheRequirement extends Requirement {
 				BARDICHE_OPERATOR_EXTENSION,
 				BARDICHE_PROBLEM_EXTENSION,
 				BARDICHE_DOMAIN_EXTENSION,
-				BARDICHE_PLAN_EXTENSION);
+				BARDICHE_PLAN_EXTENSION,
+				EXCLUSIVE_DISJUNCTION_EXTENSION);
 	}
 	
 	@Override

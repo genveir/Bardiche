@@ -1,0 +1,11 @@
+package com.geertenvink.Bardiche;
+
+public class BardicheGoal {
+	public BardicheGoal(ArgumentMap arguments) {
+		
+	}
+	
+	public Expression getGoal() {
+		
+	}
+}

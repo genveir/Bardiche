@@ -1,0 +1,7 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.planware.logic.Expression;
+
+public class BardicheGoal extends Expression {
+
+}

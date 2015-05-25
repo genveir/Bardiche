@@ -3,14 +3,14 @@
   (:requirements :adl)
   (:objects Mulak Hans Balou Cherry Henk sprinkhaan1 sprinkhaan2 sprinkhaan3 - personage
             startkamer gang_west gang_noord gang_oost gang_zuid deuren zwembadkamer wapenkamer - kamer
-            staf platemail mace chainshirt greataxe leather alchemist_fire zwaard javelin klauwen taart - voorwerp)
+            staf platemail mace chainshirt greataxe leather alchemist_fire zwaard javelin klauwen - voorwerp)
   (:protagonist Mulak)
   (:init    (in Mulak startkamer)
             (in Hans startkamer)
             (in Balou startkamer)
             (in Cherry startkamer)
             (in Henk startkamer)
-            ;;(heeft Mulak staf)
+            (heeft Mulak staf)
             (wapen staf)
             (heeft Hans platemail)
             (heeft Hans mace)
@@ -27,27 +27,10 @@
             (heeft Henk javelin)
             (wapen javelin)
             
-            (intends Mulak (heeft Mulak taart))
+            (intends Mulak (not (dood Mulak)))
+            (vriend Mulak Hans)
             
-            (intends Hans (dood sprinkhaan1))
-            (intends Hans (dood sprinkhaan2))
-            (intends Hans (dood sprinkhaan3))
-            (intends Hans (samen_en_levend Hans Mulak))
-            
-            (intends Balou (dood sprinkhaan1))
-            (intends Balou (dood sprinkhaan2))
-            (intends Balou (dood sprinkhaan3))
-            (intends Balou (in Balou wapenkamer))
-            (intends Balou (samen_en_levend Balou Mulak))
-            
-            (intends Cherry (in Cherry wapenkamer))
-            
-            (intends Henk (dood sprinkhaan1))
-            (intends Henk (dood sprinkhaan2))
-            (intends Henk (dood sprinkhaan3))
-            (intends Henk (samen_en_levend Henk Mulak))
-            
-            (in sprinkhaan1 zwembadkamer)
+            (in sprinkhaan1 startkamer)
             (heeft sprinkhaan1 klauwen)
             (in sprinkhaan2 zwembadkamer)
             (heeft sprinkhaan2 klauwen)
@@ -87,10 +70,8 @@
             (geheim wapenkamer)
             (in_vw zwaard wapenkamer)
             (in_vw chainshirt wapenkamer)
-            
-            (in_vw taart startkamer)
   )
   
-  (:goal (heeft Mulak taart)
+  (:goal (dood sprinkhaan1)
   )
 )

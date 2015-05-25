@@ -12,7 +12,9 @@
                (gewond ?personage - personage)
                (samen ?personage - personage ?erbij - personage)
                (bij ?personage - personage ?voorwerp - voorwerp)
-               (samen_en_levend ?personage - personage ?erbij - personage))
+               (samen_en_levend ?personage - personage ?erbij - personage)
+               (casus_belli ?personage - personage ?doel - personage)
+               (vriend ?vriend - personage ?personage - personage))
   
   (:action loop
     :parameters     (?personage - personage ?van - kamer ?naar - kamer)
@@ -41,11 +43,35 @@
                          (in_vw ?voorwerp ?kamer))
     :agents         (?personage))
     
-  (:action sla
+  (:action geef
+    :parameters     (?personage - personage ?erbij - personage ?voorwerp - voorwerp)
+    :precondition   (and (samen ?personage ?erbij)
+                         (heeft ?personage ?voorwerp))
+    :effect         (and (not (heeft ?personage ?voorwerp))
+                         (heeft ?erbij ?voorwerp))
+    :agents         (?personage ?erbij))
+    
+  (:action verlies
+    :parameters     (?personage - personage ?voorwerp - voorwerp ?kamer - kamer)
+    :precondition   (and (heeft ?personage ?voorwerp)
+                         (in ?personage ?kamer))
+    :effect         (and (not (heeft ?personage ?voorwerp))
+                         (in_vw ?voorwerp ?kamer)))
+    
+  (:vergeef
+    :parameters     (?personage - personage ?doel - personage)
+    :precondition   (intends ?personage (dood ?doel))
+    :effect         (not (intends ?personage (dood ?doel)))
+    :agents         (?personage))
+    
+  (:action sla_dood
     :parameters     (?personage - personage ?doel - personage)
     :precondition   (and (samen_en_levend ?personage ?doel)
                          (gewapend ?personage))
-    :effect         (dood ?doel)
+    :effect         (and (dood ?doel)
+                         (forall (?vriend - personage)
+                             (when (vriend ?vriend ?doel)
+                                   (intends ?vriend (dood ?personage)))))
     :agents         (?personage))
     
   (:action vind
@@ -73,7 +99,8 @@
   (:axiom
     :vars           (?personage - personage)
     :context        (forall (?wapen - voorwerp)
-                            (not (heeft ?personage ?wapen)))
+                            (not (and (wapen ?wapen)
+                                      (heeft ?personage ?wapen))))
     :implies        (not (gewapend ?personage)))
     
   (:axiom

@@ -1,7 +1,0 @@
-package com.geertenvink.Bardiche;
-
-import com.stephengware.java.glaive.GlaiveRelaxedPlanBuilder;
-
-public class BardicheRelaxedPlanBuilder extends GlaiveRelaxedPlanBuilder {
-
-}
