@@ -1,0 +1,21 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.ig.IntentionGraph;
+import com.stephengware.java.planware.ss.IntentionalStateSpace;
+
+public class PossibilityChecker {
+	private static IntentionGraph planGraph;
+	
+	public static void initialize(ArgumentMap arguments) {
+		BardicheProblem problem = arguments.get(Bardiche.PROBLEM);
+		
+		IntentionalStateSpace space = arguments.get(Bardiche.STATE_SPACE);
+		
+		planGraph = new IntentionGraph(space);
+		
+		BardicheGoal goal = problem.bardicheGoal;
+		
+		
+	}
+}

@@ -1,0 +1,31 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.AxiomTree;
+import com.stephengware.java.planware.State;
+import com.stephengware.java.planware.ig.IntentionGraph;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.ss.IntentionalStateSpace;
+
+public class PossibilityChecker {
+	private static BardicheProblem problem;
+	private static AxiomTree axiomTree;
+	
+	private static boolean initialized = false;
+	private class InitializationException extends Exception {
+		
+	}
+	
+	public static void initialize(ArgumentMap arguments) {
+		problem = arguments.get(Bardiche.PROBLEM);
+		axiomTree = arguments.get(Bardiche.AXIOM_TREE);
+		
+		initialized = true;
+	}
+	
+	public static boolean test(Expression argument, State state) {
+		if (!initialized) throw new InitializationException("PossibilityChecker used before initialization");
+	}
+	
+}

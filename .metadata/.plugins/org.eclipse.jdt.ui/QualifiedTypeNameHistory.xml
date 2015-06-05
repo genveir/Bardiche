@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.Argument"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.Search"/>
-<fullyQualifiedTypeName name="com.stephengware.java.glaive.PartialPlan"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.Argument.ParsedArgument"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.Problem"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.IntentionalProblem"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.Node"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.IOManager"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.PDDLManager"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.util.ImmutableArray"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.intp.IntentionalityRequirement"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.IntentionalDomain"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.Templates.DomainTemplate"/>
@@ -39,25 +32,32 @@
 <fullyQualifiedTypeName name="java.lang.Override"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Term"/>
 <fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaivePlan"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.ig.IntentionGraph"/>
 <fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaiveSearchNode"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 <fullyQualifiedTypeName name="java.util.Iterator"/>
 <fullyQualifiedTypeName name="com.geertenvink.Bardiche.io.IOHandler"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.ss.IntentionalStateSpace"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.ArgumentMap"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.State"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Predication"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.NAryBooleanExpression"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Expression"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Substitution"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.NonDeterministicException"/>
-<fullyQualifiedTypeName name="com.geertenvink.Bardiche.ExclusiveDisjunction"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Disjunction"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Negation"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Conjunction"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.NormalFormUtilities"/>
 <fullyQualifiedTypeName name="com.geertenvink.Bardiche.ExclusiveDisjunctionExtension"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.NAryBooleanExpression"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Conjunction"/>
+<fullyQualifiedTypeName name="com.geertenvink.Bardiche.ExclusiveDisjunction"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Disjunction"/>
+<fullyQualifiedTypeName name="com.geertenvink.Bardiche.BardicheGoal"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.PDDLManager"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.util.ImmutableList"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.util.ImmutableArray"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Substitution"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.Symbol"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.ArgumentMap"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.ss.IntentionalStateSpace"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.ig.IntentionGraph"/>
 </qualifiedTypeNameHistroy>

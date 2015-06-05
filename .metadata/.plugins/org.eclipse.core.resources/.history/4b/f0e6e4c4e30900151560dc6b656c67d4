@@ -1,0 +1,7 @@
+package com.geertenvink.Bardiche;
+
+public class PossibilityChecker {
+	public static void initialize(ArgumentMap arguments) {
+		
+	}
+}

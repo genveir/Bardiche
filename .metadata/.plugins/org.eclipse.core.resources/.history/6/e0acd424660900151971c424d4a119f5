@@ -1,0 +1,33 @@
+package com.geertenvink.Bardiche;
+
+import java.util.LinkedList;
+
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.util.ImmutableArray;
+
+public class BardicheGoal {
+	protected ImmutableArray<Expression> goodEndings;
+	protected ImmutableArray<Expression> badEndings;
+
+	protected Expression goal;
+	
+	protected BardicheGoal(Expression[] goodEndings, Expression[] badEndings) {
+		this.goodEndings = new ImmutableArray<Expression>(goodEndings);
+		this.badEndings = new ImmutableArray<Expression>(badEndings);
+		
+		generateGoal();
+	}
+	
+	public BardicheGoal(LinkedList<Expression> goodEndings, LinkedList<Expression> badEndings) {
+		this(goodEndings.toArray(new Expression[goodEndings.size()]), 
+		     badEndings.toArray(new Expression[badEndings.size()]));
+	}
+	
+	private void generateGoal() {
+		goal = goodEndings.get(0); // SCRIPTIE
+	}
+	
+	public Expression getGoal() {
+		return goal;
+	}
+}

@@ -59,7 +59,7 @@ public class Main {
 							problem.protagonist,
 							problem.universe,
 							state,
-							problem.goal);
+							problem.bardicheGoal);
 					
 					oDomain = problem.domain;
 					oProblem = newProblem;

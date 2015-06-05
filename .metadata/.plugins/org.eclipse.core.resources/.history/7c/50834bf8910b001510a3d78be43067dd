@@ -1,0 +1,20 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.State;
+import com.stephengware.java.planware.ig.IntentionGraph;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.ss.IntentionalStateSpace;
+
+public class PossibilityChecker {
+	private static GlaivePlan rootPlan;
+	
+	public static void initialize(ArgumentMap arguments) {
+		rootPlan = new GlaivePlan("possibilityRootPlan", arguments.get(Bardiche.PROBLEM), arguments.get(Bardiche.AXIOM_TREE));
+	}
+	
+	public static boolean test(Expression argument, State state) {
+		
+	}
+}

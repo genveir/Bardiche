@@ -3,7 +3,6 @@ package com.geertenvink.Bardiche;
 import java.util.ArrayList;
 
 import com.stephengware.java.cpocl.Utilities;
-import com.stephengware.java.glaive.AgentGoal;
 import com.stephengware.java.glaive.GlaivePlan;
 import com.stephengware.java.glaive.StepEvent;
 import com.stephengware.java.planware.ArgumentMap;
@@ -31,13 +30,8 @@ public class BardichePlan extends GlaivePlan {
 	private boolean getComplete(ArgumentMap arguments) {
 		GlaivePlan executedPlan = getExecutedPlan(arguments, !lastStep.agents.contains(protagonist));
 		
-		for(AgentGoal goal : executedPlan.agentGoals()) {
-			if (goal.agent == protagonist && !executedPlan.getCurrentState().isTrue(goal.goal)) {
-
-				return false;
-			}
-		}
-		return true;
+		// SCRIPTIE moet in twee stappen. Plannen naar spanning, dan naar einde.
+		return executedPlan.getCurrentState().isTrue(arguments.get(Bardiche.PROBLEM).goal);
 	}
 	
 	public GlaivePlan getExecutedPlan(ArgumentMap arguments, boolean getSuggestion) {

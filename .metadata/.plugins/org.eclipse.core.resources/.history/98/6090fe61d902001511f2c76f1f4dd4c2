@@ -1,5 +1,0 @@
-package com.geertenvink.Bardiche;
-
-public class NormalFormUtilities extends com.stephengware.java.planware.logic.NormalFormUtilities {
-
-}

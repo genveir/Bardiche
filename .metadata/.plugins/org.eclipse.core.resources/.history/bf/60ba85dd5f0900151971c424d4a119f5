@@ -1,0 +1,20 @@
+package com.geertenvink.Bardiche;
+
+import java.util.ArrayList;
+
+import com.stephengware.java.planware.logic.Conjunction;
+import com.stephengware.java.planware.logic.Disjunction;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.logic.NAryBooleanExpression;
+
+public class BardicheGoal {
+	Conjunction goal;
+
+	public BardicheGoal(Conjunction goal) {
+		this.goal = goal;
+	}
+	
+	public Expression getGoal() {
+		return goal;
+	}
+}

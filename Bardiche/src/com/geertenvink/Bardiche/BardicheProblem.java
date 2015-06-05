@@ -13,13 +13,15 @@ import com.stephengware.java.planware.util.ImmutableSet;
 public class BardicheProblem extends IntentionalProblem {
 	public final Constant protagonist;
 	public final BardicheDomain domain;
+	public final BardicheGoal bardicheGoal;
 	
 	public BardicheProblem(String name, BardicheDomain domain,
 			Constant protagonist, Universe universe, 
-			Expression initialState, Expression goal) {
-		super(name, domain, universe, initialState, goal);
+			Expression initialState, BardicheGoal goal) {
+		super(name, domain, universe, initialState, goal.getGoal());
 		this.protagonist = protagonist;
 		this.domain = domain;
+		this.bardicheGoal = goal;
 	}
 	
 	@Override
@@ -42,11 +44,11 @@ public class BardicheProblem extends IntentionalProblem {
 		Expression initialState = this.initialState.substitute(substitution);
 		if(initialState != this.initialState)
 			different = true;
-		Expression goal = this.goal.substitute(substitution);
-		if(goal != this.goal)
+		BardicheGoal bardicheGoal = this.bardicheGoal.substitute(substitution);
+		if(bardicheGoal != this.bardicheGoal)
 			different = true;
 		if(different)
-			return new BardicheProblem(name, domain, protagonist, universe, initialState, goal);
+			return new BardicheProblem(name, domain, protagonist, universe, initialState, bardicheGoal);
 		else
 			return this;
 	}

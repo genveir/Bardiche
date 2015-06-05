@@ -83,6 +83,14 @@
     :effect         (not (geheim ?gevonden))
     :agents         (?personage))
     
+  (:action bevriend
+    :parameters     (?personage - personage ?vriend - personage)
+    :precondition   (and (samen_en_levend ?personage ?vriend)
+                         (not (intends ?personage (dood ?vriend)))
+                         (not (intends ?vriend (dood ?personage))))
+    :effect         (and (vriend ?personage ?vriend)
+                         (vriend ?vriend ?personage)))
+    
 ;; AXIOMS
     
   (:axiom

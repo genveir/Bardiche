@@ -8,17 +8,21 @@
             (heeft Mulak staf)
             (wapen staf)
             (in Hans startkamer)
-            (vriend Mulak Hans)
             (in sprinkhaan1 startkamer)
             (heeft sprinkhaan1 klauwen)
             (wapen klauwen)
             (intends sprinkhaan1 (dood Hans))
   )
             
-  (:goal (or 
-            (dood sprinkhaan1)
-            (and (dood Mulak)
-                 (dood Hans))
-         )
+  (:bardichegoal 
+    (good 
+        (and (dood Hans)
+             (not (dood Mulak))
+             (dood sprinkhaan1))
+        (and (not (dood Hans))
+             (not (dood Mulak))
+             (dood sprinkhaan1))
+    )
+    (bad (dood Mulak))
   )
 )

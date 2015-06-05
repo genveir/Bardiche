@@ -1,0 +1,57 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.glaive.GlaiveRelaxedPlanBuilder;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.AxiomTree;
+import com.stephengware.java.planware.State;
+import com.stephengware.java.planware.ig.IntentionGraph;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.ss.IntentionalStateSpace;
+import com.stephengware.java.planware.IntentionalProblem;
+
+public class PossibilityChecker {
+	private static BardicheProblem problem;
+	private static AxiomTree axiomTree;
+	private static IntentionalStateSpace stateSpace;
+	
+	private static boolean initialized = false;
+	private class InitializationException extends Exception {
+		private static final long serialVersionUID = 1L;
+
+		public InitializationException(String message) {
+			super(message);
+		}
+	}
+	
+	public static void initialize(ArgumentMap arguments) {
+		problem = arguments.get(Bardiche.PROBLEM);
+		axiomTree = arguments.get(Bardiche.AXIOM_TREE);
+		stateSpace = arguments.get(Bardiche.STATE_SPACE);
+		
+		initialized = true;
+	}
+	
+	public static boolean test(Expression argument, State state) throws InitializationException {
+		if (!initialized) throw new InitializationException("PossibilityChecker used before initialization");
+		
+		IntentionalProblem possibilityProblem = new IntentionalProblem(
+				"possibilityCheckerProblem",
+				problem.domain,
+				problem.universe,
+				state.toExpression(),
+				argument);
+		GlaivePlan possibilityPlan = new GlaivePlan("possibilityCheckerPlan", possibilityProblem, axiomTree);
+		Evaluator evaluator = new Evaluator(stateSpace, argument);
+		
+		GlaiveSearchNode possibilityChecker = new GlaiveSearchNode(possibilityPlan);
+		
+	}
+	
+	private class Evaluator extends GlaiveRelaxedPlanBuilder {
+		public Evaluator(IntentionalStateSpace stateSpace, Expression goal) {
+			super(new IntentionGraph(stateSpace), goal);
+		}
+	}
+	
+}

@@ -1,0 +1,18 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.planware.logic.Conjunction;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.util.ImmutableArray;
+
+public class BardicheGoal {
+	ImmutableArray<Expression> goodEndings;
+	ImmutableArray<Expression> badEndings;
+
+	public BardicheGoal(List<Expression> goodEndings, List<Expression> badEndings) {
+		this.goal = goal;
+	}
+	
+	public Expression getGoal() {
+		return goal;
+	}
+}

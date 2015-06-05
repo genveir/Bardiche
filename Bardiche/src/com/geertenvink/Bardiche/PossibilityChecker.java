@@ -1,46 +1,46 @@
 package com.geertenvink.Bardiche;
 
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.AxiomTree;
 import com.stephengware.java.planware.State;
-import com.stephengware.java.planware.logic.*;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.ss.IntentionalStateSpace;
+import com.stephengware.java.planware.IntentionalProblem;
 
 public class PossibilityChecker {
-	public static boolean isPossible(Expression subGoal, State state) {
-		// an expression not caught by a more specific method is an unknown.
-		// we will return false unless the expression evaluates to true, 
-		// since in that case it's possible.
-		return subGoal.test(state);
-	}
+	private static BardicheProblem problem;
+	private static AxiomTree axiomTree;
+	private static IntentionalStateSpace stateSpace;
 	
-	public static boolean isPossible(Predication subGoal, State state) {
-		// the only predicates allowed in bardiche goals are goals that
-		// are irreversible and reachable. So any predicate in a goal
-		// is possible.
+	private static boolean initialized = false;
+	
+	public static void initialize(ArgumentMap arguments) {
+		problem = arguments.get(Bardiche.PROBLEM);
+		axiomTree = arguments.get(Bardiche.AXIOM_TREE);
+		stateSpace = arguments.get(Bardiche.STATE_SPACE);
 		
-		// SCRIPTIE eigenlijk zou er gekeken moeten worden of er een
-		// agent is die het ook echt kan doen. Nu moeten we forcen dat
-		// de state bereikbaar is.
-		return true;
+		initialized = true;
 	}
 	
-	public static boolean isPossible(Conjunction subGoal, State state) {
-		// a conjunction is possible if each of its arguments is
-		// possible.
-		for (Expression argument : subGoal.arguments) {
-			if (!isPossible(argument, state)) return false;
-		}
-		return true;
-	}
-	
-	public static boolean isPossible(Disjunction subGoal, State state) {
-		// a disjunction is possible if one of its arguments is possible.
-		for (Expression argument : subGoal.arguments) {
-			if (isPossible(argument, state)) return true;
-		}
-		return false;
-	}
-	
-	public static boolean isPossible(Negation subGoal, State state) {
-		// SCRIPTIE fixen
-		return !subGoal.argument.test(state);
+	public static boolean test(Expression argument, State state) {
+		if (!initialized)
+			try {
+				throw new InitializationException("PossibilityChecker used before initialization");
+			} catch (InitializationException e) {
+				e.printStackTrace();
+				return false;
+			}
+		
+		IntentionalProblem possibilityProblem = new IntentionalProblem(
+				"possibilityCheckerProblem",
+				problem.domain,
+				problem.universe,
+				state.toExpression(),
+				argument);
+		GlaivePlan possibilityPlan = new GlaivePlan("possibilityCheckerPlan", possibilityProblem, axiomTree);
+		PossibilityEvaluator evaluator = new PossibilityEvaluator(stateSpace, argument);
+		
+		return evaluator.isPossible(possibilityPlan);
 	}
 }

@@ -1,0 +1,9 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.planware.ArgumentMap;
+
+public class PossibilityChecker {
+	public static void initialize(ArgumentMap arguments) {
+		
+	}
+}

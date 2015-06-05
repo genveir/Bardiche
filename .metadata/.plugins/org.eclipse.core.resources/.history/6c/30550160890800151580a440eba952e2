@@ -1,0 +1,31 @@
+package com.geertenvink.Bardiche;
+
+import java.util.ArrayList;
+
+import com.stephengware.java.planware.logic.Conjunction;
+import com.stephengware.java.planware.logic.Disjunction;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.logic.NAryBooleanExpression;
+
+public class BardicheGoal {
+	private ArrayList<Expression> positiveGoals = new ArrayList<Expression>();
+	private ArrayList<Expression> negativeGoals = new ArrayList<Expression>();
+
+	public BardicheGoal(Conjunction goal) {
+		ExclusiveDisjunction positiveGoalDisjunct = (ExclusiveDisjunction) goal.arguments.get(0);
+		Disjunction negativeGoalDisjunct = (Disjunction) goal.arguments.get(1);
+		
+		addArgumentsToArrayList(positiveGoalDisjunct, positiveGoals);
+		addArgumentsToArrayList(negativeGoalDisjunct, negativeGoals);
+	}
+	
+	private void addArgumentsToArrayList(NAryBooleanExpression expression, ArrayList<Expression> list) {
+		for (Expression argument : expression.arguments) {
+			list.add(argument);
+		}
+	}
+	
+	public Expression getGoal() {
+		return null;
+	}
+}
