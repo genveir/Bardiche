@@ -19,7 +19,6 @@ public class BardicheRequirement extends Requirement {
 	
 	public static final Requirement BARDICHE = new BardicheRequirement();
 	
-	// xor and diamond should probably be split off to another requirement in a proper implementation.
 	private BardicheRequirement(){
 		super("bardiche", "interactive systems for Bardiche",
 				BARDICHE_OPERATOR_EXTENSION,

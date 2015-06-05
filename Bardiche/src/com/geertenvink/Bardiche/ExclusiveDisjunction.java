@@ -92,9 +92,8 @@ public class ExclusiveDisjunction extends NAryBooleanExpression {
 		return result;
 	}
 	
-	// I don't know what this does, and it seems strange that a disjunction could not have a
-	// property a conjunction and negation both do have, but I'll follow the disjunction
-	// and set this to false.
+	// I don't quite know what this does, but the impose on disjunctions throws a "non deterministic
+	// exception", and an xor is not deterministic, so I'll set this to false.
 	@Override
 	public boolean isImposable() {
 		return false;

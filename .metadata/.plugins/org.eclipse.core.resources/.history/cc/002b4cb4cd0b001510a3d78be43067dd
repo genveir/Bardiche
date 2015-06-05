@@ -23,9 +23,13 @@ public class PossibilityChecker {
 		initialized = true;
 	}
 	
-	public static boolean test(Expression argument, State state) throws InitializationException {
-			if (!initialized) {
+	public static boolean test(Expression argument, State state) {
+		if (!initialized)
+			try {
 				throw new InitializationException("PossibilityChecker used before initialization");
+			} catch (InitializationException e) {
+				e.printStackTrace();
+				return false;
 			}
 		
 		IntentionalProblem possibilityProblem = new IntentionalProblem(

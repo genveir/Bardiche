@@ -8,7 +8,6 @@ import com.stephengware.java.planware.logic.Expression;
 import com.stephengware.java.planware.logic.Literal;
 import com.stephengware.java.planware.logic.ModalExpression;
 import com.stephengware.java.planware.logic.Substitution;
-import com.stephengware.java.planware.logic.NegatedLiteral;
 
 public class Possibility extends ModalExpression implements Literal {
 	public static final String POSSIBILITY_MODALITY = "possible";
@@ -17,27 +16,6 @@ public class Possibility extends ModalExpression implements Literal {
 	public Possibility(Expression argument) {
 		super(POSSIBILITY_MODALITY, argument);
 		this.argument = argument;
-	}
-	
-	@Override
-	@SuppressWarnings("unchecked")
-	public <E extends Entity> void collect(Class<E> entityType,
-			Collection<E> collection) {
-		if (entityType.isAssignableFrom(getClass()))
-			collection.add((E) this);
-		argument.collect(entityType, collection);
-	}
-	
-	@Override
-	public Expression substitute(Substitution substitution) {
-		Expression substituted = substitution.substitute(this, Expression.class);
-		if (substituted != this)
-			return substituted;
-		Expression substitutedArgument = argument.substitute(substitution);
-		if (substitutedArgument != argument)
-			return new Possibility(substitutedArgument);
-		else
-			return this;
 	}
 
 	@Override
@@ -54,29 +32,64 @@ public class Possibility extends ModalExpression implements Literal {
 		}
 	}
 
+
+
+
+	@Override
+	public Expression substitute(Substitution substitution) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public boolean isImposable() {
-		// don't know what this does, but I assume it's the same as for intentions
-		return true;
+		// TODO Auto-generated method stub
+		return false;
 	}
+
+
+
 
 	@Override
 	public boolean impose(State state) {
-		return state.impose(this);
+		// TODO Auto-generated method stub
+		return false;
 	}
-	
-	@Override
-	public Literal negate() {
-		return new NegatedLiteral(this);
-	}
+
+
+
 
 	@Override
 	public Expression toCNF() {
-		return this;
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
+
 
 	@Override
 	public Expression toDNF() {
-		return this;
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+	@Override
+	public <E extends Entity> void collect(Class<E> entityType,
+			Collection<E> collection) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	@Override
+	public Literal negate() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

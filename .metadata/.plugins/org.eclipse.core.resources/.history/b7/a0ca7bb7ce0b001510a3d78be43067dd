@@ -1,0 +1,17 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.planware.State;
+import com.stephengware.java.planware.logic.Expression;
+
+public class Possibility {
+	private Expression argument;
+	
+	public boolean test(State state) {
+		try {
+			return PossibilityChecker.test(argument, state);
+		} catch (InitializationException e) {
+			e.printStackTrace();
+			return false; // if somehow the possibilitychecker is not initialized, return false
+		}
+	}
+}

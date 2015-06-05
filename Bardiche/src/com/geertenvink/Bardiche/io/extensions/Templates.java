@@ -3,8 +3,10 @@ package com.geertenvink.Bardiche.io.extensions;
 import com.geertenvink.Bardiche.BardicheDomain;
 import com.geertenvink.Bardiche.BardicheOperator;
 import com.geertenvink.Bardiche.BardicheProblem;
+import com.geertenvink.Bardiche.Possibility;
 import com.stephengware.java.planware.io.Field;
 import com.stephengware.java.planware.logic.Constant;
+import com.stephengware.java.planware.logic.Expression;
 
 public class Templates {
 	public static abstract class BardicheProblemTemplate extends com.stephengware.java.planware.io.pddl.intp.Templates.IntentionalProblemTemplate {
@@ -18,5 +20,9 @@ public class Templates {
 	
 	public static abstract class BardicheOperatorTemplate extends com.stephengware.java.planware.io.pddl.intp.Templates.IntentionalOperatorTemplate {
 		public static final Field<BardicheOperator, Constant> INITIATOR = new Field<>(BardicheOperator.class, "initiator", Constant.class);
+	}
+	
+	public static abstract class PossibilityTemplate {
+		public static final Field<Possibility, Expression> ARGUMENT = new Field<>(Possibility.class, "argument", Expression.class);
 	}
 }
