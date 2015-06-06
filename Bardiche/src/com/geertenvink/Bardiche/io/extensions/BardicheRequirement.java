@@ -1,9 +1,12 @@
 package com.geertenvink.Bardiche.io.extensions;
 
+import com.geertenvink.Bardiche.ExclusiveDisjunction;
+import com.geertenvink.Bardiche.Possibility;
 import com.stephengware.java.planware.Domain;
 import com.stephengware.java.planware.Problem;
 import com.stephengware.java.planware.io.Extension;
 import com.stephengware.java.planware.io.Parser;
+import com.stephengware.java.planware.io.pddl.PDDLManager;
 import com.stephengware.java.planware.io.pddl.Requirement;
 import com.stephengware.java.planware.io.pddl.intp.IntentionalityRequirement;
 import com.stephengware.java.planware.io.pddl.sexp.SExpression;
@@ -14,20 +17,24 @@ public class BardicheRequirement extends Requirement {
 	private static final Extension<SExpression, SExpression> BARDICHE_PROBLEM_EXTENSION = new BardicheProblemExtension();
 	private static final Extension<SExpression, SExpression> BARDICHE_DOMAIN_EXTENSION = new BardicheDomainExtension();
 	private static final Extension<SExpression, SExpression> BARDICHE_OPERATOR_EXTENSION = new BardicheOperatorExtension();
+	private static final Extension<SExpression, SExpression> OPERATOR_INITIATOR_EXTENSION = new OperatorInitiatorExtension();
 	private static final Extension<SExpression, SExpression> EXCLUSIVE_DISJUNCTION_EXTENSION = new ExclusiveDisjunctionExtension();
 	private static final Extension<SExpression, SExpression> POSSIBILITY_EXTENSION = new PossibilityExtension();
+	private static final Extension<SExpression, SExpression> UNIVERSE_POSSIBILITY_EXTENSION = new UniversePossibilityExtension();
 	
 	public static final Requirement BARDICHE = new BardicheRequirement();
 	
 	// xor and diamond should probably be split off to another requirement in a proper implementation.
 	private BardicheRequirement(){
 		super("bardiche", "interactive systems for Bardiche",
+				OPERATOR_INITIATOR_EXTENSION,
 				BARDICHE_OPERATOR_EXTENSION,
 				BARDICHE_PROBLEM_EXTENSION,
 				BARDICHE_DOMAIN_EXTENSION,
 				BARDICHE_PLAN_EXTENSION,
 				EXCLUSIVE_DISJUNCTION_EXTENSION,
-				POSSIBILITY_EXTENSION);
+				POSSIBILITY_EXTENSION,
+				UNIVERSE_POSSIBILITY_EXTENSION);
 	}
 	
 	@Override
@@ -41,6 +48,8 @@ public class BardicheRequirement extends Requirement {
 	@Override
 	protected void load(Parser<SExpression> parser){
 		super.load(parser);
+		PDDLManager.allowGoalType(ExclusiveDisjunction.class, parser);
+		PDDLManager.allowGoalType(Possibility.class, parser);
 	}
 	
 	// in any domain or problem where bardiche is a requirement, we want to use

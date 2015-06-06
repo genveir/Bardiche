@@ -24,10 +24,10 @@ public class PossibilityChecker {
 	}
 	
 	public static boolean test(Expression argument, State state) throws InitializationException {
-			if (!initialized) {
-				throw new InitializationException("PossibilityChecker used before initialization");
-			}
-		
+		if (!initialized) {
+			throw new InitializationException("PossibilityChecker used before initialization");
+		}
+
 		IntentionalProblem possibilityProblem = new IntentionalProblem(
 				"possibilityCheckerProblem",
 				problem.domain,
@@ -37,6 +37,10 @@ public class PossibilityChecker {
 		GlaivePlan possibilityPlan = new GlaivePlan("possibilityCheckerPlan", possibilityProblem, axiomTree);
 		PossibilityEvaluator evaluator = new PossibilityEvaluator(stateSpace, argument);
 		
-		return evaluator.isPossible(possibilityPlan);
+		boolean result = evaluator.isPossible(possibilityPlan);
+		
+		//System.out.println(argument + ", possible = " + result + ", fact = " + argument.test(state)); //SCRIPTIE debug
+		
+		return result && !argument.test(state);
 	}
 }

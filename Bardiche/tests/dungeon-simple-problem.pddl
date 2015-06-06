@@ -1,6 +1,6 @@
 (define (problem dungeon)
   (:domain dungeon)
-  (:objects Mulak Hans sprinkhaan1 - personage
+  (:objects Mulak Hans Balou sprinkhaan1 - personage
             startkamer - kamer
             staf klauwen - voorwerp)
   (:protagonist Mulak)
@@ -8,6 +8,7 @@
             (heeft Mulak staf)
             (wapen staf)
             (in Hans startkamer)
+            (in Balou startkamer)
             (in sprinkhaan1 startkamer)
             (heeft sprinkhaan1 klauwen)
             (wapen klauwen)
@@ -16,12 +17,8 @@
             
   (:bardichegoal 
     (good 
-        (and (dood Hans)
-             (not (dood Mulak))
-             (dood sprinkhaan1))
-        (and (not (dood Hans))
-             (not (dood Mulak))
-             (dood sprinkhaan1))
+        (and (not (dood Hans)) (dood sprinkhaan1))
+        (and (not (dood Balou)) (dood sprinkhaan1))
     )
     (bad (dood Mulak))
   )

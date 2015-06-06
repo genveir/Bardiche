@@ -1,5 +1,5 @@
 (define (domain dungeon)
-  (:requirements :adl :domain-axioms :intentionality :bardiche)
+  (:requirements :adl :domain-axioms :intentionality :expression-variables :bardiche)
   (:types voorwerp personage kamer)
   (:predicates (heeft ?personage - personage ?voorwerp - voorwerp)
                (in ?personage - personage ?kamer - kamer)
@@ -25,7 +25,8 @@
                          (not (geheim ?naar)))
     :effect         (and (not (in ?personage ?van))
                          (in ?personage ?naar))
-    :agents         (?personage))
+    :agents         (?personage)
+    :initiator      (?personage))
     
   (:action pak_op
     :parameters     (?personage - personage ?voorwerp - voorwerp ?kamer - kamer)
@@ -33,7 +34,8 @@
                          (in_vw ?voorwerp ?kamer))
     :effect         (and (heeft ?personage ?voorwerp)
                          (not (in_vw ?voorwerp ?kamer)))
-    :agents         (?personage))
+    :agents         (?personage)
+    :initiator      (?personage))
     
   (:action laat_vallen
     :parameters     (?personage - personage ?voorwerp - voorwerp ?kamer - kamer)
@@ -41,7 +43,8 @@
                          (heeft ?personage ?voorwerp))
     :effect         (and (not (heeft ?personage ?voorwerp))
                          (in_vw ?voorwerp ?kamer))
-    :agents         (?personage))
+    :agents         (?personage)
+    :initiator      (?personage))
     
   (:action geef
     :parameters     (?personage - personage ?erbij - personage ?voorwerp - voorwerp)
@@ -49,7 +52,8 @@
                          (heeft ?personage ?voorwerp))
     :effect         (and (not (heeft ?personage ?voorwerp))
                          (heeft ?erbij ?voorwerp))
-    :agents         (?personage ?erbij))
+    :agents         (?personage ?erbij)
+    :initiator      (?personage))
     
   (:action verlies
     :parameters     (?personage - personage ?voorwerp - voorwerp ?kamer - kamer)
@@ -58,11 +62,12 @@
     :effect         (and (not (heeft ?personage ?voorwerp))
                          (in_vw ?voorwerp ?kamer)))
     
-  (:vergeef
+  (:action vergeef
     :parameters     (?personage - personage ?doel - personage)
     :precondition   (intends ?personage (dood ?doel))
     :effect         (not (intends ?personage (dood ?doel)))
-    :agents         (?personage))
+    :agents         (?personage)
+    :initiator      (?personage))
     
   (:action sla_dood
     :parameters     (?personage - personage ?doel - personage)
@@ -72,7 +77,8 @@
                          (forall (?vriend - personage)
                              (when (vriend ?vriend ?doel)
                                    (intends ?vriend (dood ?personage)))))
-    :agents         (?personage))
+    :agents         (?personage)
+    :initiator      (?personage))
     
   (:action vind
     :parameters     (?personage - personage ?kamer - kamer ?gevonden - kamer)
@@ -81,7 +87,8 @@
                          (naast ?kamer ?gevonden)
                          (geheim ?gevonden))
     :effect         (not (geheim ?gevonden))
-    :agents         (?personage))
+    :agents         (?personage)
+    :initiator      (?personage))
     
   (:action bevriend
     :parameters     (?personage - personage ?vriend - personage)
@@ -89,7 +96,8 @@
                          (not (intends ?personage (dood ?vriend)))
                          (not (intends ?vriend (dood ?personage))))
     :effect         (and (vriend ?personage ?vriend)
-                         (vriend ?vriend ?personage)))
+                         (vriend ?vriend ?personage))
+    :initiator      (?personage))
     
 ;; AXIOMS
     

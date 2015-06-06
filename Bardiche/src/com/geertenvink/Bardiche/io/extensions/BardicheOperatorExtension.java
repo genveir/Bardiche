@@ -16,6 +16,8 @@ import com.geertenvink.Bardiche.BardicheOperator;
 import com.geertenvink.Bardiche.io.extensions.Templates.BardicheOperatorTemplate;
 
 public class BardicheOperatorExtension extends SimpleExtension<SExpression, BardicheOperator> {
+	public static final String INITIATOR_IDENTIFIER = ":initiator";
+	
 	public BardicheOperatorExtension() {
 		super(BardicheOperator.class);
 	}
@@ -27,13 +29,23 @@ public class BardicheOperatorExtension extends SimpleExtension<SExpression, Bard
 		Expression precondition = parser.require(BardicheOperatorTemplate.PRECONDITION);
 		Expression effect = parser.require(BardicheOperatorTemplate.EFFECT);
 		Term[] agents = parser.require(BardicheOperatorTemplate.AGENTS);
-		Term initiator = (agents.length == 0) ? null : agents[0];
+		Term initiator = parser.require(BardicheOperatorTemplate.INITIATOR);
 		succeed(new BardicheOperator(name, parameters, precondition, effect, agents, initiator));
 	}
 	
 	@Override
 	public SExpression build(BardicheOperator operator, SExpression document, Builder<SExpression> builder) throws BuildException {
-		buildAgents(operator, (List) document, builder);
+		List documentList = (List) document;
+		
+		buildAgents(operator, documentList, builder);
+		
+		if (operator.initiator != null) {
+			documentList.addChild(INITIATOR_IDENTIFIER);
+			List initiatorAsList = new List();
+			initiatorAsList.addChild(builder.build(operator.initiator));
+			documentList.addChild(initiatorAsList);
+		}
+		
 		return document;
 	}
 	

@@ -3,6 +3,9 @@ package com.geertenvink.Bardiche;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.stephengware.java.planware.State;
+import com.stephengware.java.planware.logic.Conjunction;
+import com.stephengware.java.planware.logic.Disjunction;
 import com.stephengware.java.planware.logic.Expression;
 import com.stephengware.java.planware.logic.Substitution;
 import com.stephengware.java.planware.util.ImmutableArray;
@@ -14,10 +17,32 @@ public class BardicheGoal {
 	protected Expression goal;
 	
 	protected BardicheGoal(Expression[] goodEndings, Expression[] badEndings) {
+		for (int i = 0; i < goodEndings.length; i++) {
+			goodEndings[i] = new Possibility(goodEndings[i]);
+		}
 		this.goodEndings = new ImmutableArray<Expression>(goodEndings);
+		
+		for (int i = 0; i < badEndings.length; i++) {
+			badEndings[i] = new Possibility(badEndings[i]);
+		}
 		this.badEndings = new ImmutableArray<Expression>(badEndings);
 		
-		generateGoal();
+		Expression goodEndingsExpression;
+		if (goodEndings.length > 1)
+			 goodEndingsExpression = new ExclusiveDisjunction(goodEndings);
+		else
+			goodEndingsExpression = goodEndings[0];
+			
+		Expression badEndingsExpression;
+		if (badEndings.length > 1)
+			 badEndingsExpression = new Disjunction(badEndings);
+		else
+			badEndingsExpression = badEndings[0];
+		
+		System.out.println("goodEndingsExpression = " + goodEndingsExpression); // SCRIPTIE debug
+		System.out.println("badEndingsExpression = " + badEndingsExpression);
+		
+		goal = new Conjunction(new Expression[]{goodEndingsExpression, badEndingsExpression});
 	}
 	
 	public BardicheGoal(List<Expression> goodEndings, List<Expression> badEndings) {
@@ -25,8 +50,13 @@ public class BardicheGoal {
 		     badEndings.toArray(new Expression[badEndings.size()]));
 	}
 	
-	private void generateGoal() {
-		goal = goodEndings.get(0); // SCRIPTIE
+	public void setFinalGoal(State state) {
+		for (Expression ending : goodEndings) {
+			if (ending.test(state)) {
+				goal = ending;
+				break;
+			}
+		}
 	}
 	
 	public BardicheGoal substitute(Substitution substitution) {

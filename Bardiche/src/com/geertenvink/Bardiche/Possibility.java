@@ -12,6 +12,7 @@ import com.stephengware.java.planware.logic.NegatedLiteral;
 
 public class Possibility extends ModalExpression implements Literal {
 	public static final String POSSIBILITY_MODALITY = "possible";
+	
 	public final Expression argument;
 	
 	public Possibility(Expression argument) {
