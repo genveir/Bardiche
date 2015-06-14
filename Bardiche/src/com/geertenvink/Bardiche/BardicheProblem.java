@@ -58,10 +58,10 @@ public class BardicheProblem extends IntentionalProblem {
 		BardicheOperator operator = domain.getOperator(operatorName);
 		Substitution substitution = getSubstitution(operator.parameters, arguments);
 		Constant[] agents = new Constant[operator.agents.length];
-		Constant initiator = null;
+		Constant initiator = substitution.substitute(operator.initiator, Constant.class);
 		for(int i=0; i<agents.length; i++) {
 			agents[i] = substitution.substitute(operator.agents.get(i), Constant.class);
-			if (operator.agents.get(i).equals(operator.initiator)) initiator = agents[i]; 
+			//if (operator.agents.get(i).equals(operator.initiator)) initiator = agents[i]; 
 		}
 		return new BardicheStep(operator, new ImmutableArray<Entity>(arguments), operator.precondition.substitute(substitution), 
 				operator.effect.substitute(substitution), new ImmutableSet<>(agents), initiator);

@@ -1,8 +1,0 @@
-package com.geertenvink.Bardiche.io.extensions;
-
-import SimpleExtension;
-
-public class UniversePossibilityExtension extends
-		SimpleExtension<SExpression, SExpression> {
-
-}

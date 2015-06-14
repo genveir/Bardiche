@@ -16,21 +16,42 @@ public class BardichePlan extends GlaivePlan {
 	public final ArrayList<BardicheStep> executedSteps;
 	public final BardicheStep lastStep;
 	
-	public BardichePlan(GlaivePlan plan, ArgumentMap arguments, int completedSteps) {
-		super(plan.name, arguments.get(Bardiche.PROBLEM), arguments.get(Bardiche.AXIOM_TREE));
-		setSteps(plan);
+	public BardichePlan(ArgumentMap arguments) {
+		super("Bardiche Final Plan", arguments.get(Bardiche.PROBLEM), arguments.get(Bardiche.AXIOM_TREE));
 		protagonist = arguments.get(Bardiche.PROBLEM).protagonist;
 		
-		this.completedSteps = completedSteps;
-		executedSteps = getExecutedSteps();
-		lastStep = executedSteps.get(executedSteps.size() -1);
-		complete = getComplete(arguments);
+		this.executedSteps = new ArrayList<>();
+		setStepsFromStepsList();
+		
+		this.complete = false;
+		this.completedSteps = executedSteps.size();
+		this.lastStep = null;
 	}
 	
-	private boolean getComplete(ArgumentMap arguments) {
-		GlaivePlan executedPlan = getExecutedPlan(arguments, !lastStep.agents.contains(protagonist));
+	public BardichePlan(GlaivePlan plan, ArgumentMap arguments, int completedSteps) {
+		super(plan.name, arguments.get(Bardiche.PROBLEM), arguments.get(Bardiche.AXIOM_TREE));
+		protagonist = arguments.get(Bardiche.PROBLEM).protagonist;
 		
-		// SCRIPTIE moet in twee stappen. Plannen naar spanning, dan naar einde.
+		setSteps(plan);
+		this.completedSteps = completedSteps;
+		executedSteps = getExecutedSteps();
+		if (executedSteps.size() != 0)
+			lastStep = executedSteps.get(executedSteps.size() -1);
+		else
+			lastStep = null;
+		complete = getComplete(arguments, plan);
+	}
+	
+	private boolean getComplete(ArgumentMap arguments, GlaivePlan plan) {
+		GlaivePlan executedPlan;
+		if (lastStep == null) 
+			executedPlan = plan;
+		else {
+			boolean protagonistInLastStep = stepContainsProtagonist(lastStep);
+			executedPlan = getExecutedPlan(arguments, !protagonistInLastStep);
+			if (completedSteps < executedSteps.size() && protagonistInLastStep) return false;
+		}
+		
 		return executedPlan.getCurrentState().isTrue(arguments.get(Bardiche.PROBLEM).goal);
 	}
 	
@@ -40,23 +61,41 @@ public class BardichePlan extends GlaivePlan {
 		
 		if (planSize < completedSteps) planSize = completedSteps;
 		
+		System.out.println("---"); //SCRIPTIE
+		System.out.println("getExecutedPlan"); //SCRIPTIE
+		System.out.println("getSuggestion = " + getSuggestion); //SCRIPTIE
+		System.out.println("planSize = " + planSize); //SCRIPTIE
+		System.out.println("completedSteps = " + completedSteps); //SCRIPTIE
+		System.out.println("executedSteps.size() = " + executedSteps.size()); //SCRIPTIE
+		
 		GlaivePlan executedPlan = new GlaivePlan(name, problem, arguments.get(Bardiche.AXIOM_TREE));
 		
 		for(int numSteps = 0; numSteps < planSize; numSteps++) {
 			BardicheStep step = executedSteps.get(numSteps);
+			System.out.println("adding step " + step); //SCRIPTIE
 			executedPlan.addStep(step);
 		}
+		System.out.println("---"); //SCRIPTIE
 		
 		return executedPlan;
 	}
 	
 	private void setSteps(GlaivePlan plan) {
 		for (StepEvent step : Utilities.getSteps(plan)) {
-			if (Utilities.isExecuted(step, plan)) addStep(step.source);
+			if (Utilities.isExecuted(step, plan)) {
+				addStep(step.source);
+				StepsList.addStep((BardicheStep) step.source);
+			}
 		}
 	}
 	
-	private ArrayList<BardicheStep> getExecutedSteps() {
+	private void setStepsFromStepsList() {
+		for (BardicheStep step : StepsList.steps) {
+			executedSteps.add(step);
+		}
+	}
+	
+	private final ArrayList<BardicheStep> getExecutedSteps() {
 		int numSteps = 0;
 		ArrayList<BardicheStep> steps = new ArrayList<BardicheStep>();
 		
@@ -69,7 +108,8 @@ public class BardichePlan extends GlaivePlan {
 				numSteps++;
 			}
 			
-			if (numSteps <= completedSteps || !step.source.agents.contains(protagonist)) {
+			if (numSteps <= completedSteps || 
+					(!stepContainsProtagonist(bardicheStep))) {
 				steps.add(bardicheStep);
 			}
 			else {
@@ -79,5 +119,9 @@ public class BardichePlan extends GlaivePlan {
 		}
 		
 		return steps;
+	}
+	
+	private boolean stepContainsProtagonist(BardicheStep step) {
+		return step.agents.contains(protagonist) || step.initiator == protagonist;
 	}
 }

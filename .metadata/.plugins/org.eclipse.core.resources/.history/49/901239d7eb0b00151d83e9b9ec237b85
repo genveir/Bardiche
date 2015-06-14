@@ -1,9 +1,0 @@
-package com.geertenvink.Bardiche.io.extensions;
-
-import com.stephengware.java.planware.io.pddl.sexp.SExpression;
-import com.stephengware.java.planware.io.SimpleExtension;
-import com.stephengware.java.planware.logic.ModalExpression;
-
-public class UniversePossibilityExtension extends SimpleExtension<SExpression, SExpression> {
-	private static final ModalExpression POSSIBILITY = new Possibility(new ExpressionVariable("argument"));
-}

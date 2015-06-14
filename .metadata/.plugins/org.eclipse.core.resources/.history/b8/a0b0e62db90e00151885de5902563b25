@@ -1,0 +1,41 @@
+package com.geertenvink.Bardiche;
+
+import java.util.HashMap;
+
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.State;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.ss.IntentionalStateSpace;
+
+public class PossibilityChecker {
+	private static IntentionalStateSpace stateSpace;
+	
+	private static boolean initialized = false;
+	
+	private static HashMap<State, PossibilityEvaluator> evaluators = new HashMap<>();
+	
+	public static void initialize(ArgumentMap arguments) {
+		stateSpace = arguments.get(Bardiche.STATE_SPACE);
+		
+		initialized = true;
+	}
+	
+	public static boolean test(Expression argument, State state) throws InitializationException {
+		if (!initialized) {
+			throw new InitializationException("PossibilityChecker used before initialization");
+		}
+
+		PossibilityEvaluator evaluator;
+		if (evaluators.containsKey(state)) {
+			evaluator = evaluators.get(state);
+		}
+		else {
+			evaluator = new PossibilityEvaluator(stateSpace, state);
+			evaluators.put(state, evaluator);
+		}
+		
+		boolean result = evaluator.isPossible(state, argument);
+		
+		return result && !argument.test(state);
+	}
+}

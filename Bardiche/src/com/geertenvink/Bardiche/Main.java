@@ -3,13 +3,13 @@ package com.geertenvink.Bardiche;
 import com.geertenvink.Bardiche.io.IOHandler;
 import com.stephengware.java.glaive.GlaivePlan;
 import com.stephengware.java.planware.ArgumentMap;
-import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.State;
 
 public class Main {
 	public static void main(String[] args) {		
 		// set domain and problem
-		String domainName = "tests/dungeon-domain.pddl";
-		String problemName = "tests/dungeon-simple-problem.pddl";
+		String domainName = "tests/door-domain-sc.pddl";
+		String problemName = "tests/door-problem-sc.pddl";
 		
 		// get domain and problem from args if supplied
 		if (args.length > 0) {
@@ -20,18 +20,21 @@ public class Main {
 		}
 		
 		Object oDomain = domainName;
-		Object oProblem = problemName;		
+		Object oProblem = problemName;
+		
+		Bardiche planner = new Bardiche();
+		ArgumentMap arguments = planner.makeArguments();
 		
 		boolean complete = false;
-		while (!complete) {
-			Bardiche planner = new Bardiche();
-			ArgumentMap arguments = planner.makeArguments();
-			
+		boolean buildingTension = true;
+		boolean goalChanged = true;
+		while (!complete) {			
 			arguments.set(Bardiche.DOMAIN, oDomain);
 			arguments.set(Bardiche.PROBLEM, oProblem);
 			
 			// generate part of the narrative
-			BardichePlan plan = planner.generate(arguments);
+			BardichePlan plan = planner.generate(arguments, goalChanged);
+			if (goalChanged) goalChanged = false;
 			
 			if (plan == null) {
 				System.out.println("unfortunately, Bardiche was unable to generate a story");
@@ -42,30 +45,48 @@ public class Main {
 				
 				// TODO maintain and update steps list
 				
-				if (!complete) {
+				if (!complete || buildingTension) {
 					GlaivePlan executedPlan = plan.getExecutedPlan(arguments, false);
 					
-					// pick an action, add it to the plan
-					BardicheStep step = new BardicheStepPicker(arguments, executedPlan).pick();
+					StepsList.addSteps(executedPlan);
+					if (!complete) {
+						// pick an action, add it to the plan
+						BardicheStep step = new BardicheStepPicker(arguments, executedPlan).pick();
+							
+						executedPlan.addStep(step);
+						
+						StepsList.addStep(step);
+					}
+					State state = executedPlan.getCurrentState();
 					
-					executedPlan.addStep(step);
-	
-					Expression state = executedPlan.getCurrentState().toExpression();
-				
 					BardicheProblem problem = arguments.get(Bardiche.PROBLEM);
+					
+					if (problem.goal.test(state)) complete = true; 
+					System.out.println(state);
+					System.out.println(problem.goal + " = " + complete); //SCRIPTIE
+					
+					if (complete) {
+						buildingTension = false;
+						complete = false;
+						problem.bardicheGoal.setFinalGoal(state);
+						goalChanged = true;
+					}
+					
 					BardicheProblem newProblem = new BardicheProblem(
 							problem.name,
 							problem.domain,
 							problem.protagonist,
 							problem.universe,
-							state,
+							state.toExpression(),
 							problem.bardicheGoal);
 					
-					oDomain = problem.domain;
 					oProblem = newProblem;
 				}
 			}
 		}
+		
+		System.out.println("full story:");
+		IOHandler.print(arguments, new BardichePlan(arguments));
 		
 		IOHandler.close();
 	}
@@ -74,16 +95,3 @@ public class Main {
 /* SCRIPTIE ensure in goals dat laatste actie door protagonist wordt genomen, bijvoorbeeld door te zorgen dat er altijd
    een unieke intentie van de protagonist in de eindgoal zit. Waarschijnlijk is het een goed idee om te zorgen dat de
    goals van de user een subset zijn van de story goal */ 
-
-// SCRIPTIE lelijke shit dat Glaive niet test of expressions goed getyped zijn in problem
-
-// SCRIPTIE disjunctie van goals in story goal doen, en selectief opties afsluiten tijdens verhaal. Completeness is wanneer
-// een van de goals gebeurd is, en de andere niet meer possible zijn.
-
-// SCRIPTIE tweeplaatsige conjunctie van disjuncties doen. "Goede aflopen" en "Slechte aflopen". Die twee disjuncties
-// moeten ook éénplaatsig kunnen zijn (en dan dus eigenlijk geen disjunctie).
-
-// SCRIPTIE possibility moet dan wel duidelijk zijn, je wilt niet dat hij een jaar denkt over een oplossing die niet kan
-
-// SCRIPTIE genereren van opties voor goals heb je een semantiek van je verhaal voor nodig, dat ligt buiten de scope van
-// dit project, dus doen we niet. Vandaar goals met de hand.

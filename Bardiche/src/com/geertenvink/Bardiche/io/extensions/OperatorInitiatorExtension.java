@@ -28,7 +28,6 @@ public class OperatorInitiatorExtension extends SimpleExtension<SExpression, Ope
 			Node initiatorNode = initiatorSymbol.requireNextSibling().asList().getChild(0);
 			initiator = parser.parseOrFail(initiatorNode, Term.class);
 		}
-		System.out.println("initiator for " + document + " is " + initiator); // SCRIPTIE debug
 		parser.define(Templates.BardicheOperatorTemplate.INITIATOR, initiator);
 	}
 	

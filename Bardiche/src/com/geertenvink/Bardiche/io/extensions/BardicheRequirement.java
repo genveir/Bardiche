@@ -1,6 +1,6 @@
 package com.geertenvink.Bardiche.io.extensions;
 
-import com.geertenvink.Bardiche.ExclusiveDisjunction;
+import com.geertenvink.Bardiche.SelectOne;
 import com.geertenvink.Bardiche.Possibility;
 import com.stephengware.java.planware.Domain;
 import com.stephengware.java.planware.Problem;
@@ -18,7 +18,7 @@ public class BardicheRequirement extends Requirement {
 	private static final Extension<SExpression, SExpression> BARDICHE_DOMAIN_EXTENSION = new BardicheDomainExtension();
 	private static final Extension<SExpression, SExpression> BARDICHE_OPERATOR_EXTENSION = new BardicheOperatorExtension();
 	private static final Extension<SExpression, SExpression> OPERATOR_INITIATOR_EXTENSION = new OperatorInitiatorExtension();
-	private static final Extension<SExpression, SExpression> EXCLUSIVE_DISJUNCTION_EXTENSION = new ExclusiveDisjunctionExtension();
+	private static final Extension<SExpression, SExpression> EXCLUSIVE_DISJUNCTION_EXTENSION = new SelectOneExtension();
 	private static final Extension<SExpression, SExpression> POSSIBILITY_EXTENSION = new PossibilityExtension();
 	private static final Extension<SExpression, SExpression> UNIVERSE_POSSIBILITY_EXTENSION = new UniversePossibilityExtension();
 	
@@ -48,7 +48,7 @@ public class BardicheRequirement extends Requirement {
 	@Override
 	protected void load(Parser<SExpression> parser){
 		super.load(parser);
-		PDDLManager.allowGoalType(ExclusiveDisjunction.class, parser);
+		PDDLManager.allowGoalType(SelectOne.class, parser);
 		PDDLManager.allowGoalType(Possibility.class, parser);
 	}
 	

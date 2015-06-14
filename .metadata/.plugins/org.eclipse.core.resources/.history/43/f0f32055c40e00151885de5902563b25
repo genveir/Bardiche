@@ -1,0 +1,17 @@
+package com.geertenvink.Bardiche;
+
+import java.util.LinkedList;
+
+public class StepsList {
+	public LinkedList<BardicheStep> steps = new LinkedList<BardicheStep>();
+	
+	public void addStep(BardicheStep step) {
+		steps.add(step);
+	}
+	
+	public void addSteps(Iterable<BardicheStep> newSteps) {
+		for (BardicheStep step : newSteps) {
+			addStep(step);
+		}
+	}
+}

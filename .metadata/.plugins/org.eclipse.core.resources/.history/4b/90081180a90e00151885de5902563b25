@@ -1,0 +1,19 @@
+package com.geertenvink.Bardiche.io.extensions;
+
+import com.geertenvink.Bardiche.SelectOne;
+import com.stephengware.java.planware.io.pddl.BooleanExpressionExtension;
+import com.stephengware.java.planware.logic.Expression;
+
+public class ExclusiveDisjunctionExtension extends BooleanExpressionExtension<SelectOne, Expression> {
+	
+	public static final String EXCLUSIVE_DISJUNCTION_OPERATOR = "xor";
+	
+	public ExclusiveDisjunctionExtension() {
+		super(SelectOne.class, EXCLUSIVE_DISJUNCTION_OPERATOR, Expression.class, 2, -1);
+	}
+	
+	@Override
+	protected SelectOne construct(Expression[] arguments) {
+		return new SelectOne(arguments);
+	}
+}

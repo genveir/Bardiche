@@ -26,7 +26,7 @@ public class BardichePlanExtension implements Extension<SExpression, SExpression
 	
 	@Override
 	public SExpression build(BardichePlan plan, SExpression document, Builder<SExpression> builder) throws BuildException {
-		document = new List("Bardiche Plan", new List(":protagonist", plan.protagonist.name));
+		document = new List("Bardiche Progress", new List(":protagonist", plan.protagonist.name));
 		((List) document).setFormatRule(FormatRule.PDDL_DOCUMENT);
 		buildSteps(plan, (List) document, builder);
 		return document;

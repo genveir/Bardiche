@@ -1,7 +1,9 @@
 package com.geertenvink.Bardiche;
 
 import java.util.Collection;
+import java.util.HashMap;
 
+import com.stephengware.java.planware.NonDeterministicException;
 import com.stephengware.java.planware.State;
 import com.stephengware.java.planware.logic.Entity;
 import com.stephengware.java.planware.logic.Expression;
@@ -15,9 +17,12 @@ public class Possibility extends ModalExpression implements Literal {
 	
 	public final Expression argument;
 	
+	private final HashMap<State, Boolean> results;
+	
 	public Possibility(Expression argument) {
 		super(POSSIBILITY_MODALITY, argument);
 		this.argument = argument;
+		this.results = new HashMap<>();
 	}
 	
 	@Override
@@ -32,6 +37,7 @@ public class Possibility extends ModalExpression implements Literal {
 	@Override
 	public Expression substitute(Substitution substitution) {
 		Expression substituted = substitution.substitute(this, Expression.class);
+		
 		if (substituted != this)
 			return substituted;
 		Expression substitutedArgument = argument.substitute(substitution);
@@ -47,8 +53,12 @@ public class Possibility extends ModalExpression implements Literal {
 	}	
 	
 	public boolean test(State state) {
+		if (results.containsKey(state)) return results.get(state);
 		try {
-			return PossibilityChecker.test(argument, state);
+			Boolean result = PossibilityChecker.test(argument, state);
+			results.put(state, result);
+			
+			return result;
 		} catch (InitializationException e) {
 			e.printStackTrace();
 			return false; // if somehow the possibilitychecker is not initialized, return false
@@ -57,13 +67,12 @@ public class Possibility extends ModalExpression implements Literal {
 
 	@Override
 	public boolean isImposable() {
-		// don't know what this does, but I assume it's the same as for intentions
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean impose(State state) {
-		return state.impose(this);
+		throw new NonDeterministicException(this);
 	}
 	
 	@Override

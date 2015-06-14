@@ -1,0 +1,97 @@
+package com.geertenvink.Bardiche;
+
+import java.util.Collection;
+import java.util.HashMap;
+
+import com.stephengware.java.planware.State;
+import com.stephengware.java.planware.logic.Entity;
+import com.stephengware.java.planware.logic.Expression;
+import com.stephengware.java.planware.logic.Literal;
+import com.stephengware.java.planware.logic.ModalExpression;
+import com.stephengware.java.planware.logic.Substitution;
+import com.stephengware.java.planware.logic.NegatedLiteral;
+
+public class Possibility extends ModalExpression implements Literal {
+	public static final String POSSIBILITY_MODALITY = "possible";
+	
+	public final Expression argument;
+	
+	private final HashMap<State, Boolean> results;
+	private final boolean hasBeenFalse = false;
+	
+	public Possibility(Expression argument) {
+		super(POSSIBILITY_MODALITY, argument);
+		this.argument = argument;
+		this.results = new HashMap<>();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public <E extends Entity> void collect(Class<E> entityType,
+			Collection<E> collection) {
+		if (entityType.isAssignableFrom(getClass()))
+			collection.add((E) this);
+		argument.collect(entityType, collection);
+	}
+	
+	@Override
+	public Expression substitute(Substitution substitution) {
+		Expression substituted = substitution.substitute(this, Expression.class);
+		if (substituted != this)
+			return substituted;
+		Expression substitutedArgument = argument.substitute(substitution);
+		if (substitutedArgument != argument)
+			return new Possibility(substitutedArgument);
+		else
+			return this;
+	}
+
+	@Override
+	public boolean isTestable() {
+		return true;
+	}	
+	
+	public boolean test(State state) {
+		if (results.containsKey(state)) return results.get(state);
+		try {
+			System.out.println(".");
+			Boolean result = PossibilityChecker.test(argument, state);
+			results.put(state, result);
+			
+			// SCRIPTIE debug in possibility test
+			System.out.println(state);
+			System.out.println(this + " = " + result);
+			
+			return result;
+		} catch (InitializationException e) {
+			e.printStackTrace();
+			return false; // if somehow the possibilitychecker is not initialized, return false
+		}
+	}
+
+	@Override
+	public boolean isImposable() {
+		// don't know what this does, but I assume it's the same as for intentions
+		return true;
+	}
+
+	@Override
+	public boolean impose(State state) {
+		return state.impose(this);
+	}
+	
+	@Override
+	public Literal negate() {
+		return new NegatedLiteral(this);
+	}
+
+	@Override
+	public Expression toCNF() {
+		return this;
+	}
+
+	@Override
+	public Expression toDNF() {
+		return this;
+	}
+}

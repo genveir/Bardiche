@@ -13,6 +13,7 @@
             (heeft sprinkhaan1 klauwen)
             (wapen klauwen)
             (intends sprinkhaan1 (dood Hans))
+            ;;(intends sprinkhaan1 (dood Balou))
   )
             
   (:bardichegoal 

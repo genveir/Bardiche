@@ -12,6 +12,8 @@ import com.stephengware.java.planware.util.CountableIterable;
 
 public class GlaiveSearchNode extends StateSpaceSearchNode {
 	
+	public static int num = 0;
+	
 	public final GlaiveSearchNode parent;
 	public final GlaivePlan plan;
 	public final TokenList tokens;

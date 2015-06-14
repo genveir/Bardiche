@@ -66,6 +66,7 @@ public class Glaive extends IntentionalStateSpacePlanner<IntentionalProblem> {
 		PartialPlan remaining = arguments.get(PARTIAL_PLAN);
 		// Create strategy
 		GlaivePlan rootPlan = new GlaivePlan(problem.name + "-solution", problem, axiomTree);
+		
 		GlaiveSearchNode rootNode = new GlaiveSearchNode(rootPlan, remaining);
 		GlaiveRelaxedPlanBuilder relaxedPlanner = new GlaiveRelaxedPlanBuilder(new IntentionGraph(space), problem.getGoal());
 		relaxedPlanner.evaluate(rootNode);

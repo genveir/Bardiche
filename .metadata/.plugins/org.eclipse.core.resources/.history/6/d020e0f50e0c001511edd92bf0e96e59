@@ -1,8 +1,0 @@
-package com.geertenvink.Bardiche.io.extensions;
-
-import SimpleExtension;
-
-public class OperatorInitiatorExtension extends
-		SimpleExtension<SExtension, Operator> {
-
-}

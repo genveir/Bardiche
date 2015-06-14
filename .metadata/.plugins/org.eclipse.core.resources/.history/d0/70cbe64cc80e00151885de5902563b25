@@ -1,0 +1,21 @@
+package com.geertenvink.Bardiche;
+
+import java.util.LinkedList;
+
+import com.stephengware.java.cpocl.Utilities;
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.glaive.StepEvent;
+
+public class StepsList {
+	public LinkedList<BardicheStep> steps = new LinkedList<BardicheStep>();
+	
+	public void addStep(BardicheStep step) {
+		steps.add(step);
+	}
+	
+	public void addSteps(GlaivePlan plan) {
+		for (StepEvent step : Utilities.getSteps(plan)) {
+			addStep((BardicheStep) step.source);
+		}
+	}
+}

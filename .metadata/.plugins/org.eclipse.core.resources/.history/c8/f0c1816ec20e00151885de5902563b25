@@ -1,0 +1,24 @@
+package com.geertenvink.Bardiche.io.extensions;
+
+import com.stephengware.java.planware.io.BuildException;
+import com.stephengware.java.planware.io.Builder;
+import com.stephengware.java.planware.io.ParseException;
+import com.stephengware.java.planware.io.Parser;
+import com.stephengware.java.planware.io.SimpleExtension;
+
+public class BardicheOutputPlanExtension extends SimpleExtension {
+
+	@Override
+	public Object build(Object object, Object document, Builder builder)
+			throws BuildException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void parse(Object document, Parser parser) throws ParseException {
+		// TODO Auto-generated method stub
+
+	}
+
+}

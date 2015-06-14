@@ -40,14 +40,15 @@ public class Bardiche extends Glaive {
 		return arguments;
 	}
 	
-	public BardichePlan generate(ArgumentMap arguments) {		
+	public BardichePlan generate(ArgumentMap arguments, boolean goalChanged) {		
 		// we need to parse the problem before Glaive does so, or it will
 		// attempt to parse it as an IntentionalProblem.
 		BardicheProblem problem = arguments.get(PROBLEM);
 		
-		PossibilityChecker.initialize(arguments);
-		
 		System.out.println("generating solution for " + problem);
+		System.out.println("with goal: " + problem.goal);
+		
+		if (goalChanged) PossibilityChecker.initialize(arguments);
 		
 		Search search = search(arguments);
 		
@@ -60,7 +61,7 @@ public class Bardiche extends Glaive {
 		if (result.getSuccess()) {
 			GlaivePlan plan = (GlaivePlan) result.getPlan();
 			
-			IOHandler.print(arguments, plan);
+			IOHandler.print(arguments,  plan); //SCRIPTIE
 			
 			do {
 				bardichePlan = new BardichePlan(plan, arguments, numSteps);

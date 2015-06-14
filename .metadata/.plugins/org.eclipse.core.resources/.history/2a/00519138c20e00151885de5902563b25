@@ -1,0 +1,25 @@
+package com.geertenvink.Bardiche;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import com.stephengware.java.planware.logic.Constant;
+
+public class BardicheOutputPlan {
+	private Constant protagonist;
+	private List<BardicheStep> steps = new LinkedList<BardicheStep>();
+	
+	public void addStep(BardicheStep step) {
+		steps.add(step);
+	}
+	
+	public void addSteps(List<BardicheStep> newSteps) {
+		for (BardicheStep step : newSteps) {
+			addStep(step);
+		}
+	}
+	
+	public void setProtagonist(Constant protagonist) {
+		this.protagonist = protagonist;
+	}
+}

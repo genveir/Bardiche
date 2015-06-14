@@ -17,32 +17,41 @@ public class BardicheGoal {
 	protected Expression goal;
 	
 	protected BardicheGoal(Expression[] goodEndings, Expression[] badEndings) {
+		Possibility[] possibleGoodEndings = new Possibility[goodEndings.length];
 		for (int i = 0; i < goodEndings.length; i++) {
-			goodEndings[i] = new Possibility(goodEndings[i]);
+			possibleGoodEndings[i] = new Possibility(goodEndings[i]);
 		}
-		this.goodEndings = new ImmutableArray<Expression>(goodEndings);
+		this.goodEndings = new ImmutableArray<Expression>(possibleGoodEndings);
 		
+		Possibility[] possibleBadEndings = new Possibility[badEndings.length];
 		for (int i = 0; i < badEndings.length; i++) {
-			badEndings[i] = new Possibility(badEndings[i]);
+			possibleBadEndings[i] = new Possibility(badEndings[i]);
 		}
-		this.badEndings = new ImmutableArray<Expression>(badEndings);
+		this.badEndings = new ImmutableArray<Expression>(possibleBadEndings);
 		
 		Expression goodEndingsExpression;
-		if (goodEndings.length > 1)
-			 goodEndingsExpression = new ExclusiveDisjunction(goodEndings);
-		else
-			goodEndingsExpression = goodEndings[0];
-			
+		Expression negatedGoodEndings;
+		if (goodEndings.length > 1) {
+			goodEndingsExpression = new SelectOne(possibleGoodEndings);
+			negatedGoodEndings = new Disjunction(goodEndings).negate();
+		}
+		else {
+			goodEndingsExpression = possibleGoodEndings[0];
+			negatedGoodEndings = goodEndings[0].negate();
+		}
+		
 		Expression badEndingsExpression;
-		if (badEndings.length > 1)
-			 badEndingsExpression = new Disjunction(badEndings);
-		else
-			badEndingsExpression = badEndings[0];
+		Expression negatedBadEndings;
+		if (badEndings.length > 1) {
+			badEndingsExpression = new Disjunction(possibleBadEndings);
+			negatedBadEndings = new Disjunction(badEndings).negate();
+		}
+		else {
+			badEndingsExpression = possibleBadEndings[0];
+			negatedBadEndings = badEndings[0].negate();
+		}
 		
-		System.out.println("goodEndingsExpression = " + goodEndingsExpression); // SCRIPTIE debug
-		System.out.println("badEndingsExpression = " + badEndingsExpression);
-		
-		goal = new Conjunction(new Expression[]{goodEndingsExpression, badEndingsExpression});
+		goal = new Conjunction(new Expression[]{goodEndingsExpression, badEndingsExpression, negatedGoodEndings, negatedBadEndings});
 	}
 	
 	public BardicheGoal(List<Expression> goodEndings, List<Expression> badEndings) {
@@ -53,9 +62,21 @@ public class BardicheGoal {
 	public void setFinalGoal(State state) {
 		for (Expression ending : goodEndings) {
 			if (ending.test(state)) {
-				goal = ending;
+				goal = ((Possibility) ending).argument;
 				break;
 			}
+		}
+	}
+	
+	public void printGoals(State state) {
+		System.out.println("state: " + state);
+		System.out.println("good endings:");
+		for (Expression ending : goodEndings) {
+			System.out.println(ending + " = " + ending.test(state));
+		}
+		System.out.println("bad endings:");
+		for (Expression ending : badEndings) {
+			System.out.println(ending + " = " + ending.test(state));
 		}
 	}
 	

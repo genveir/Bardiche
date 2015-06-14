@@ -1,0 +1,19 @@
+package com.geertenvink.Bardiche;
+
+import java.util.LinkedList;
+
+import com.stephengware.java.planware.IntentionalStep;
+
+public class StepsList {
+	public LinkedList<BardicheStep> steps = new LinkedList<BardicheStep>();
+	
+	public void addStep(BardicheStep step) {
+		steps.add(step);
+	}
+	
+	public void addSteps(Iterable<IntentionalStep> newSteps) {
+		for (IntentionalStep step : newSteps) {
+			addStep((BardicheStep) step);
+		}
+	}
+}
