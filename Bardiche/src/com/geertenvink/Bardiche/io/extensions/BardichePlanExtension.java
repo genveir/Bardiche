@@ -1,9 +1,8 @@
 package com.geertenvink.Bardiche.io.extensions;
 
-import java.util.ArrayList;
-
 import com.geertenvink.Bardiche.BardichePlan;
 import com.geertenvink.Bardiche.BardicheStep;
+import com.stephengware.java.glaive.GlaivePlan;
 import com.stephengware.java.planware.io.BuildException;
 import com.stephengware.java.planware.io.Builder;
 import com.stephengware.java.planware.io.DocumentBuilder;
@@ -26,23 +25,23 @@ public class BardichePlanExtension implements Extension<SExpression, SExpression
 	
 	@Override
 	public SExpression build(BardichePlan plan, SExpression document, Builder<SExpression> builder) throws BuildException {
-		document = new List("Bardiche Progress", new List(":protagonist", plan.protagonist.name));
+		document = new List(plan.name, new List(":protagonist", plan.protagonist.name));
 		((List) document).setFormatRule(FormatRule.PDDL_DOCUMENT);
 		buildSteps(plan, (List) document, builder);
 		return document;
 	}
 	
 	protected void buildSteps(BardichePlan plan, List document, Builder<SExpression> builder) throws BuildException {
-		List stepsList = makeNewList(":steps");
-		ArrayList<BardicheStep> steps = plan.executedSteps;
+		List stepsList = makeNewList(":executed");
+		GlaivePlan executedPlan = plan.getExecutedPlanPlusSuggestion();
 		
-		for (int n = 0; n < steps.size(); n++) {
-			if (!plan.complete && n == steps.size() - 1) {
+		for (int time = 1; time <= executedPlan.getCurrentTime(); time++) {
+			if (!plan.complete && time == executedPlan.getCurrentTime()) {
 				document.addChild(stepsList);
 				stepsList = makeNewList(":suggested");
 			}
 			
-			addStep(stepsList, steps.get(n), builder);
+			addStep(stepsList, (BardicheStep) plan.getStep(time).source, builder);
 		}
 		document.addChild(stepsList);
 	}

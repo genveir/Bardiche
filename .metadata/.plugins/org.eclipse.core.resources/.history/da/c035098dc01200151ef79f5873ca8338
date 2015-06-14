@@ -1,0 +1,27 @@
+package com.geertenvink.Bardiche;
+
+import java.util.LinkedList;
+
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.glaive.StepEvent;
+
+public class StepsList {
+	private static LinkedList<StepEvent> steps = new LinkedList<StepEvent>();
+	
+	public static void addStep(StepEvent step) {
+		System.out.println("adding " + step + " to output");
+		
+		steps.add(step);
+	}
+	
+	public static void addSteps(GlaivePlan plan) {
+		System.out.println("adding steps");
+		for (int time = 1; time <= plan.getCurrentTime(); time++) {
+			addStep(plan.getStep(time));
+		}
+	}
+	
+	public static StepEvent getStep(int time) {
+		return steps.get(time -1);
+	}
+}

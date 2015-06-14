@@ -1,0 +1,109 @@
+package com.geertenvink.Bardiche;
+
+import java.util.ArrayList;
+
+import com.stephengware.java.cpocl.Utilities;
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.glaive.StepEvent;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.logic.Constant;
+
+public class BardichePlan extends GlaivePlan {
+	public final Constant protagonist;
+	
+	public final boolean complete;
+	public final ArrayList<BardicheStep> executedSteps;
+	public final int suggestedStepTime;
+	
+	// used to generate a plan for output
+	public BardichePlan(ArgumentMap arguments) {
+		super("Bardiche Final Plan", arguments.get(Bardiche.PROBLEM), arguments.get(Bardiche.AXIOM_TREE));
+		protagonist = arguments.get(Bardiche.PROBLEM).protagonist;
+		
+		this.executedSteps = new ArrayList<>();
+		setStepsFromStepsList();
+		
+		this.complete = true;
+		this.suggestedStepTime = -1;
+	}
+	
+	public BardichePlan(GlaivePlan plan, ArgumentMap arguments) {
+		super(plan.name, arguments.get(Bardiche.PROBLEM), arguments.get(Bardiche.AXIOM_TREE));
+		protagonist = arguments.get(Bardiche.PROBLEM).protagonist;
+		
+		setSteps(plan);
+		executedSteps = getExecutedSteps();
+		suggestedStepTime = getSuggestedStepTime();
+		complete = getComplete(arguments, plan);
+	}
+	
+	private final boolean getComplete(ArgumentMap arguments, GlaivePlan plan) {
+		return (suggestedStepTime == -1);
+	}
+	
+	public GlaivePlan getExecutedPlan(ArgumentMap arguments) {
+		int suggestionModifier = (getSuggestion) ? 0 : -1;
+		int planSize = executedSteps.size() + suggestionModifier;
+		
+		if (planSize < completedSteps) planSize = completedSteps;
+		
+		System.out.println("---"); //SCRIPTIE
+		System.out.println("getExecutedPlan"); //SCRIPTIE
+		System.out.println("getSuggestion = " + getSuggestion); //SCRIPTIE
+		System.out.println("planSize = " + planSize); //SCRIPTIE
+		System.out.println("completedSteps = " + completedSteps); //SCRIPTIE
+		System.out.println("executedSteps.size() = " + executedSteps.size()); //SCRIPTIE
+		
+		GlaivePlan executedPlan = new GlaivePlan(name, problem, arguments.get(Bardiche.AXIOM_TREE));
+		
+		for(int numSteps = 0; numSteps < planSize; numSteps++) {
+			BardicheStep step = executedSteps.get(numSteps);
+			System.out.println("adding step " + step); //SCRIPTIE
+			executedPlan.addStep(step);
+		}
+		System.out.println("---"); //SCRIPTIE
+		
+		return executedPlan;
+	}
+	
+	private void setSteps(GlaivePlan plan) {
+		for (int time = 0; time < plan.getCurrentTime(); time++) {
+			addStep(plan.getStep(time).source);
+		}
+	}
+	
+	private void setStepsFromStepsList() {
+		for (BardicheStep step : StepsList.steps) {
+			executedSteps.add(step);
+		}
+	}
+	
+	// first step is not executed in the Bardiche sense
+	private final int getSuggestedStepTime() {
+		for (int time = 0; time < getCurrentTime(); time++) {
+			BardicheStep bardicheStep = (BardicheStep) getStep(time).source;
+			
+			if (stepContainsProtagonist(bardicheStep) && !bardicheStep.isApproved())
+				return time;
+		}
+		return -1;
+	}
+	
+	// steps which have been executed in the Glaive sense (they are part of the final plan, not
+	// part of a subplan which explains an agent action)
+	private final ArrayList<BardicheStep> getExecutedSteps() {
+		ArrayList<BardicheStep> steps = new ArrayList<BardicheStep>();
+		
+		for(int time = 0; time < getCurrentTime(); time++){
+			BardicheStep bardicheStep = (BardicheStep) getStep(time).source;
+			
+			steps.add(bardicheStep);
+		}
+		
+		return steps;
+	}
+	
+	private boolean stepContainsProtagonist(BardicheStep step) {
+		return step.agents.contains(protagonist) || step.initiator == protagonist;
+	}
+}

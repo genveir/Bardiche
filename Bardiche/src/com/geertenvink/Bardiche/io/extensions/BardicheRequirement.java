@@ -21,10 +21,11 @@ public class BardicheRequirement extends Requirement {
 	private static final Extension<SExpression, SExpression> EXCLUSIVE_DISJUNCTION_EXTENSION = new SelectOneExtension();
 	private static final Extension<SExpression, SExpression> POSSIBILITY_EXTENSION = new PossibilityExtension();
 	private static final Extension<SExpression, SExpression> UNIVERSE_POSSIBILITY_EXTENSION = new UniversePossibilityExtension();
+	private static final Extension<SExpression, SExpression> BARDICHE_OUTPUT_LIST_EXTENSION = new BardicheOutputListExtension();
 	
 	public static final Requirement BARDICHE = new BardicheRequirement();
 	
-	// xor and diamond should probably be split off to another requirement in a proper implementation.
+	// select and diamond should probably be split off to another requirement in a proper implementation.
 	private BardicheRequirement(){
 		super("bardiche", "interactive systems for Bardiche",
 				OPERATOR_INITIATOR_EXTENSION,
@@ -34,7 +35,8 @@ public class BardicheRequirement extends Requirement {
 				BARDICHE_PLAN_EXTENSION,
 				EXCLUSIVE_DISJUNCTION_EXTENSION,
 				POSSIBILITY_EXTENSION,
-				UNIVERSE_POSSIBILITY_EXTENSION);
+				UNIVERSE_POSSIBILITY_EXTENSION,
+				BARDICHE_OUTPUT_LIST_EXTENSION);
 	}
 	
 	@Override

@@ -1,0 +1,95 @@
+package com.geertenvink.Bardiche;
+
+import com.stephengware.java.glaive.GlaivePlan;
+import com.stephengware.java.glaive.StepEvent;
+import com.stephengware.java.planware.ArgumentMap;
+import com.stephengware.java.planware.AxiomTree;
+import com.stephengware.java.planware.logic.Constant;
+
+public class BardichePlan extends GlaivePlan {
+	public final Constant protagonist;
+	
+	public final boolean complete;
+	
+	private final int suggestedStepTime;
+	private final AxiomTree axiomTree;
+	
+	private final boolean outputPlan;
+	
+	// used to generate a plan for output
+	public BardichePlan(ArgumentMap arguments) {
+		super("Bardiche Final Plan", arguments.get(Bardiche.PROBLEM), arguments.get(Bardiche.AXIOM_TREE));
+		protagonist = arguments.get(Bardiche.PROBLEM).protagonist;
+		
+		outputPlan = true;
+		
+		this.complete = true;
+		this.suggestedStepTime = -1;
+		this.axiomTree = arguments.get(Bardiche.AXIOM_TREE);
+	}
+	
+	public BardichePlan(GlaivePlan plan, ArgumentMap arguments) {
+		super("Bardiche Progress", arguments.get(Bardiche.PROBLEM), arguments.get(Bardiche.AXIOM_TREE));
+		protagonist = arguments.get(Bardiche.PROBLEM).protagonist;
+		
+		this.axiomTree = arguments.get(Bardiche.AXIOM_TREE);
+		
+		setSteps(plan);
+		suggestedStepTime = getSuggestedStepTime();
+		complete = getComplete();
+		
+		outputPlan = false;
+	}
+	
+	private final boolean getComplete() {
+		return (suggestedStepTime == -1);
+	}
+	
+	public BardicheStep getSuggestedStep() {
+		return (BardicheStep) getStep(suggestedStepTime).source;
+	}
+	
+	public GlaivePlan getExecutedPlan() {
+		GlaivePlan executedPlan;
+		
+		if (complete) executedPlan = this;
+		else {
+			 executedPlan = new GlaivePlan(name, problem, axiomTree);
+			
+			for(int time = 1; time <= suggestedStepTime; time++) {
+				BardicheStep step = (BardicheStep) getStep(time).source;
+				executedPlan.addStep(step);
+			}
+		}
+		
+		return executedPlan;
+	}
+	
+	// we're only looking for those steps which are in the main plan
+	private void setSteps(GlaivePlan plan) {
+		for (int time = 1; time <= plan.getCurrentTime(); time++) {
+			addStep(plan.getStep(time).source);
+		}
+	}
+	
+	@Override
+	public StepEvent getStep(int time) {
+		if (outputPlan) return StepsList.steps.getStep(time);
+		else return super.getStep(time);
+	}
+	
+	// get the time for the first step that is not executed in the Bardiche sense
+	private final int getSuggestedStepTime() {
+		for (int time = 1; time <= getCurrentTime(); time++) {
+			BardicheStep bardicheStep = (BardicheStep) getStep(time).source;
+			
+			if (stepContainsProtagonist(bardicheStep) && !bardicheStep.isApproved())
+				return time;
+		}
+		return -1;
+	}
+	
+	private boolean stepContainsProtagonist(BardicheStep step) {
+		return step.agents.contains(protagonist) || step.initiator == protagonist;
+	}
+}

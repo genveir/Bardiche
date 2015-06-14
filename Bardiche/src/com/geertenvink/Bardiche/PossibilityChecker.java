@@ -28,8 +28,6 @@ public class PossibilityChecker {
 		
 		boolean result = evaluator.isPossible(state, argument);
 		
-		//System.out.println(argument + " = " + result); //SCRIPTIE
-		
 		return result && !argument.test(state);
 	}
 }

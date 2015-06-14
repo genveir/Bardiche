@@ -1,6 +1,7 @@
 package com.geertenvink.Bardiche;
 
 import com.geertenvink.Bardiche.io.IOHandler;
+import com.geertenvink.Bardiche.io.extensions.BardicheOutputListExtension;
 import com.geertenvink.Bardiche.io.extensions.BardichePlanExtension;
 import com.geertenvink.Bardiche.io.extensions.BardicheRequirement;
 import com.stephengware.java.glaive.Glaive;
@@ -36,6 +37,7 @@ public class Bardiche extends Glaive {
 		PDDLManager io = (PDDLManager) arguments.get(IO_MANAGER);
 		io.install(BardicheRequirement.BARDICHE);
 		io.install(new BardichePlanExtension());
+		io.install(new BardicheOutputListExtension());
 		
 		return arguments;
 	}
@@ -45,9 +47,6 @@ public class Bardiche extends Glaive {
 		// attempt to parse it as an IntentionalProblem.
 		BardicheProblem problem = arguments.get(PROBLEM);
 		
-		System.out.println("generating solution for " + problem);
-		System.out.println("with goal: " + problem.goal);
-		
 		if (goalChanged) PossibilityChecker.initialize(arguments);
 		
 		Search search = search(arguments);
@@ -56,27 +55,21 @@ public class Bardiche extends Glaive {
 		
 		BardichePlan bardichePlan = null;
 		boolean doContinue = false;
-		int numSteps = 0;
 		
 		if (result.getSuccess()) {
 			GlaivePlan plan = (GlaivePlan) result.getPlan();
 			
-			IOHandler.print(arguments,  plan); //SCRIPTIE
-			
 			do {
-				bardichePlan = new BardichePlan(plan, arguments, numSteps);
+				bardichePlan = new BardichePlan(plan, arguments);
 				
 				IOHandler.print(arguments, bardichePlan);
 				if (bardichePlan.complete) break;
 				
-				numSteps = bardichePlan.executedSteps.size() - 1;
+				BardicheStep suggestedStep = bardichePlan.getSuggestedStep();
+				boolean protagonistIsInitiator = (suggestedStep.initiator == bardichePlan.protagonist);
 				
-				BardicheStep lastStep = bardichePlan.lastStep;
-				boolean protagonistIsInitiator = (lastStep.initiator == bardichePlan.protagonist);
-				
-				doContinue = queryUserToContinue(lastStep, protagonistIsInitiator);
-
-				numSteps++;
+				doContinue = queryUserToContinue(suggestedStep, protagonistIsInitiator);
+				if (doContinue) suggestedStep.approve();
 			} while (doContinue);
 		}
 		

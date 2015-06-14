@@ -1,0 +1,66 @@
+package com.geertenvink.Bardiche.io.extensions;
+
+import com.geertenvink.Bardiche.BardicheStep;
+import com.geertenvink.Bardiche.BardicheOutputList;
+import com.geertenvink.Bardiche.InitializationException;
+import com.stephengware.java.planware.io.BuildException;
+import com.stephengware.java.planware.io.Builder;
+import com.stephengware.java.planware.io.DocumentBuilder;
+import com.stephengware.java.planware.io.Extension;
+import com.stephengware.java.planware.io.Parser;
+import com.stephengware.java.planware.io.pddl.sexp.FormatRule;
+import com.stephengware.java.planware.io.pddl.sexp.List;
+import com.stephengware.java.planware.io.pddl.sexp.SExpression;
+import com.stephengware.java.planware.io.pddl.sexp.Symbol;
+
+public class StepsListExtension implements Extension<SExpression, SExpression>, 
+			DocumentBuilder<BardicheOutputList, SExpression> {
+	
+	@Override
+	public void configure(Parser<SExpression> parser) {}
+	
+	@Override
+	public void configure(Builder<SExpression> builder) {
+		builder.overrideDocumentBuilder(BardicheOutputList.class, this);
+	}
+	
+	@Override
+	public SExpression build(BardicheOutputList stepsList, SExpression document, Builder<SExpression> builder) throws BuildException {
+		document = new List("Final Bardiche Story", new List(":protagonist", getProtagonist(stepsList, builder)));
+		((List) document).setFormatRule(FormatRule.PDDL_DOCUMENT);
+		buildSteps(stepsList, (List) document, builder);
+		return document;
+	}
+	
+	private SExpression getProtagonist(BardicheOutputList stepsList, Builder<SExpression> builder) throws BuildException {
+		try {
+			return builder.build(stepsList.getProtagonist());
+		} catch (InitializationException e) {
+			return new Symbol("unknown");
+		}
+	}
+	
+	protected void buildSteps(BardicheOutputList stepsList, List document, Builder<SExpression> builder) throws BuildException {
+		List list = makeNewList(":steps");
+		
+		int stepCount = stepsList.getStepsCount();
+		
+		for (int time = 1; time <= stepCount; time++) {
+			addStep(list, (BardicheStep) stepsList.getStep(time).source, builder);
+		}
+		document.addChild(list);
+	}
+	
+	private List makeNewList(String title) throws BuildException {
+		List stepsList = new List(title);
+		stepsList.setFormatRule(FormatRule.TWO_ELEMENTS_ON_FIRST_LINE_THEN_ONE_PER_LINE);
+		return stepsList;
+	}
+	
+	private void addStep(List stepsList, BardicheStep step, Builder<SExpression> builder) throws BuildException {
+		Object initiator = "-";
+		if (step.initiator != null) initiator = builder.build(step.initiator);
+		stepsList.addChild(new List(initiator, builder.build(step)));
+	}
+
+}

@@ -18,6 +18,7 @@ public class IOHandler {
 			arguments.get(Bardiche.IO_MANAGER).write(toWrite, out);
 			out.flush();
 		} catch (BuildException e) {
+			e.printStackTrace();
 			System.out.println(toWrite);
 		} catch (IOException e) {
 			e.printStackTrace();

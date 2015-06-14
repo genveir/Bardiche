@@ -3,3 +3,10 @@
 1433862967260	Delete element
 1433866516512	Rename type 'BardicheOutputPlan'
 1433866823193	Delete element
+1434305831371	Rename type 'StepsList'
+1434306624829	Rename type 'StepsListExtension'
+1434306658291	Rename local variable 'stepsList'
+1434306668618	Rename local variable 'stepsList'
+1434306678883	Rename local variable 'stepsList'
+1434306696843	Rename local variable 'list'
+1434307540272	Rename local variable 'stepsList'

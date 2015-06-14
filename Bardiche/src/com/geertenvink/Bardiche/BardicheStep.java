@@ -9,11 +9,20 @@ import com.stephengware.java.planware.util.ImmutableSet;
 
 public class BardicheStep extends IntentionalStep {
 	public final Constant initiator;
+	private boolean approved = false;
 	
 	public BardicheStep(BardicheOperator operator,
 			ImmutableArray<Entity> arguments, Expression precondition,
 			Expression effect, ImmutableSet<Constant> agents, Constant initiator) {
 		super(operator, arguments, precondition, effect, agents);
 		this.initiator = initiator;
+	}
+	
+	public void approve() {
+		approved = true;
+	}
+	
+	public boolean isApproved() {
+		return approved;
 	}
 }

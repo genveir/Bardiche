@@ -25,6 +25,8 @@ public class Main {
 		Bardiche planner = new Bardiche();
 		ArgumentMap arguments = planner.makeArguments();
 		
+		BardicheOutputList outputList = new BardicheOutputList();
+		
 		boolean complete = false;
 		boolean buildingTension = true;
 		boolean goalChanged = true;
@@ -43,29 +45,25 @@ public class Main {
 			else {
 				complete = plan.complete;
 				
-				// TODO maintain and update steps list
+				GlaivePlan executedPlan = plan.getExecutedPlan();
 				
 				if (!complete || buildingTension) {
-					GlaivePlan executedPlan = plan.getExecutedPlan(arguments, false);
 					
-					StepsList.addSteps(executedPlan);
 					if (!complete) {
 						// pick an action, add it to the plan
 						BardicheStep step = new BardicheStepPicker(arguments, executedPlan).pick();
 							
 						executedPlan.addStep(step);
-						
-						StepsList.addStep(step);
 					}
 					State state = executedPlan.getCurrentState();
 					
 					BardicheProblem problem = arguments.get(Bardiche.PROBLEM);
 					
 					if (problem.goal.test(state)) complete = true; 
-					System.out.println(state);
-					System.out.println(problem.goal + " = " + complete); //SCRIPTIE
 					
 					if (complete) {
+						System.out.println("\nSuspense building complete\n");
+						
 						buildingTension = false;
 						complete = false;
 						problem.bardicheGoal.setFinalGoal(state);
@@ -82,11 +80,14 @@ public class Main {
 					
 					oProblem = newProblem;
 				}
+				
+				outputList.addSteps(executedPlan);
 			}
 		}
 		
 		System.out.println("full story:");
-		IOHandler.print(arguments, new BardichePlan(arguments));
+		outputList.setProtagonist(arguments.get(Bardiche.PROBLEM).protagonist);
+		IOHandler.print(arguments, outputList);
 		
 		IOHandler.close();
 	}
