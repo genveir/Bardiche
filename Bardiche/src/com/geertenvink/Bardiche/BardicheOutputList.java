@@ -2,6 +2,7 @@ package com.geertenvink.Bardiche;
 
 import java.util.LinkedList;
 
+import com.geertenvink.Bardiche.logic.InitializationException;
 import com.stephengware.java.glaive.GlaivePlan;
 import com.stephengware.java.glaive.StepEvent;
 import com.stephengware.java.planware.logic.Constant;

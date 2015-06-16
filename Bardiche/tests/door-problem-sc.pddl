@@ -6,7 +6,6 @@
  
  (:init (at knight cell)
         (at evil_knight gatehouse)
-        (strong evil_knight)
         (at princess bedroom)
         (has princess key)
         (in axe armory)
@@ -15,7 +14,6 @@
         (adjacent hallway bedroom)
         (adjacent gatehouse armory)
         (intends knight (doorOpen))
-        (intends knight (dead evil_knight))
         (intends evil_knight (not (doorOpen)))
         (intends evil_knight (has evil_knight key))
         (intends evil_knight (has evil_knight axe))

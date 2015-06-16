@@ -1,6 +1,6 @@
 package com.geertenvink.Bardiche.io.extensions;
 
-import com.geertenvink.Bardiche.SelectOne;
+import com.geertenvink.Bardiche.logic.SelectOne;
 import com.stephengware.java.planware.io.pddl.BooleanExpressionExtension;
 import com.stephengware.java.planware.logic.Expression;
 

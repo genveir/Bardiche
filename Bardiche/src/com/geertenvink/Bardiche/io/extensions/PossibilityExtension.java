@@ -1,6 +1,6 @@
 package com.geertenvink.Bardiche.io.extensions;
 
-import com.geertenvink.Bardiche.Possibility;
+import com.geertenvink.Bardiche.logic.Possibility;
 import com.stephengware.java.planware.io.ParseException;
 import com.stephengware.java.planware.io.Parser;
 import com.stephengware.java.planware.io.pddl.ModalExpressionExtension;

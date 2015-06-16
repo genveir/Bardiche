@@ -2,7 +2,7 @@ package com.geertenvink.Bardiche.io.extensions;
 
 import com.geertenvink.Bardiche.BardicheStep;
 import com.geertenvink.Bardiche.BardicheOutputList;
-import com.geertenvink.Bardiche.InitializationException;
+import com.geertenvink.Bardiche.logic.InitializationException;
 import com.stephengware.java.planware.io.BuildException;
 import com.stephengware.java.planware.io.Builder;
 import com.stephengware.java.planware.io.DocumentBuilder;

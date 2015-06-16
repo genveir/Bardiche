@@ -28,9 +28,9 @@ public class Main {
 		BardicheOutputList outputList = new BardicheOutputList();
 		
 		boolean complete = false;
-		boolean buildingTension = true;
+		boolean buildingSuspense = true;
 		boolean goalChanged = true;
-		while (!complete) {			
+		while (!complete) {
 			arguments.set(Bardiche.DOMAIN, oDomain);
 			arguments.set(Bardiche.PROBLEM, oProblem);
 			
@@ -47,7 +47,7 @@ public class Main {
 				
 				GlaivePlan executedPlan = plan.getExecutedPlan();
 				
-				if (!complete || buildingTension) {
+				if (!complete || buildingSuspense) {
 					
 					if (!complete) {
 						// pick an action, add it to the plan
@@ -59,12 +59,12 @@ public class Main {
 					
 					BardicheProblem problem = arguments.get(Bardiche.PROBLEM);
 					
-					if (problem.goal.test(state)) complete = true; 
+					if (problem.goal.test(state)) complete = true;
 					
 					if (complete) {
 						System.out.println("\nSuspense building complete\n");
 						
-						buildingTension = false;
+						buildingSuspense = false;
 						complete = false;
 						problem.bardicheGoal.setFinalGoal(state);
 						goalChanged = true;
@@ -85,6 +85,8 @@ public class Main {
 			}
 		}
 		
+		System.out.println("\nStory complete\n");
+		
 		System.out.println("full story:");
 		outputList.setProtagonist(arguments.get(Bardiche.PROBLEM).protagonist);
 		IOHandler.print(arguments, outputList);
@@ -92,7 +94,3 @@ public class Main {
 		IOHandler.close();
 	}
 }
-
-/* SCRIPTIE ensure in goals dat laatste actie door protagonist wordt genomen, bijvoorbeeld door te zorgen dat er altijd
-   een unieke intentie van de protagonist in de eindgoal zit. Waarschijnlijk is het een goed idee om te zorgen dat de
-   goals van de user een subset zijn van de story goal */ 

@@ -2,7 +2,7 @@ package com.geertenvink.Bardiche.io.extensions;
 
 import java.util.Arrays;
 
-import com.geertenvink.Bardiche.Possibility;
+import com.geertenvink.Bardiche.logic.Possibility;
 import com.stephengware.java.planware.Universe;
 import com.stephengware.java.planware.io.Templates;
 import com.stephengware.java.planware.io.BuildException;

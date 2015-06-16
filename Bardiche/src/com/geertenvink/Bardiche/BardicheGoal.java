@@ -3,6 +3,8 @@ package com.geertenvink.Bardiche;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.geertenvink.Bardiche.logic.Possibility;
+import com.geertenvink.Bardiche.logic.SelectOne;
 import com.stephengware.java.planware.State;
 import com.stephengware.java.planware.logic.Conjunction;
 import com.stephengware.java.planware.logic.Disjunction;

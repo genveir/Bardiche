@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.stephengware.java.glaive.DefaultGlaiveSearch"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.Plan"/>
-<fullyQualifiedTypeName name="com.stephengware.java.glaive.CausalState"/>
 <fullyQualifiedTypeName name="java.lang.Override"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
@@ -17,7 +14,6 @@
 <fullyQualifiedTypeName name="com.geertenvink.Bardiche.BardicheGoal"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.util.ImmutableList"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Substitution"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.AxiomTree"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.IntentionalProblem"/>
 <fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaiveRelaxedPlanBuilder"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.ss.IntentionalStateSpace"/>
@@ -41,7 +37,6 @@
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.SExpression"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.Operator"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Term"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.Symbol"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.Parser"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.ParseException"/>
 <fullyQualifiedTypeName name="com.geertenvink.Bardiche.io.extensions.Templates.BardicheOperatorTemplate"/>
@@ -49,15 +44,20 @@
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.BuildException"/>
 <fullyQualifiedTypeName name="com.geertenvink.Bardiche.BardicheOperator"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.PDDLManager"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.ArgumentMap"/>
 <fullyQualifiedTypeName name="com.geertenvink.Bardiche.io.IOHandler"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.State"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
-<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Constant"/>
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.stephengware.java.planware.IntentionalStep"/>
 <fullyQualifiedTypeName name="com.stephengware.java.cpocl.Utilities"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.AxiomTree"/>
 <fullyQualifiedTypeName name="com.stephengware.java.glaive.GlaivePlan"/>
 <fullyQualifiedTypeName name="com.stephengware.java.glaive.StepEvent"/>
+<fullyQualifiedTypeName name="com.geertenvink.Bardiche.StepsList"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.ArgumentMap"/>
+<fullyQualifiedTypeName name="com.geertenvink.Bardiche.BardicheOutputList"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.logic.Constant"/>
+<fullyQualifiedTypeName name="com.stephengware.java.planware.io.pddl.sexp.Symbol"/>
+<fullyQualifiedTypeName name="com.geertenvink.Bardiche.io.extensions.BardicheOutputListExtension"/>
 </qualifiedTypeNameHistroy>

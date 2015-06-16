@@ -1,7 +1,7 @@
 package com.geertenvink.Bardiche.io.extensions;
 
-import com.geertenvink.Bardiche.SelectOne;
-import com.geertenvink.Bardiche.Possibility;
+import com.geertenvink.Bardiche.logic.Possibility;
+import com.geertenvink.Bardiche.logic.SelectOne;
 import com.stephengware.java.planware.Domain;
 import com.stephengware.java.planware.Problem;
 import com.stephengware.java.planware.io.Extension;

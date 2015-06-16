@@ -3,7 +3,7 @@ package com.geertenvink.Bardiche.io.extensions;
 import com.geertenvink.Bardiche.BardicheDomain;
 import com.geertenvink.Bardiche.BardicheOperator;
 import com.geertenvink.Bardiche.BardicheProblem;
-import com.geertenvink.Bardiche.Possibility;
+import com.geertenvink.Bardiche.logic.Possibility;
 import com.stephengware.java.planware.io.Field;
 import com.stephengware.java.planware.logic.Constant;
 import com.stephengware.java.planware.logic.Expression;

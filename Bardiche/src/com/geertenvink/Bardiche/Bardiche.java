@@ -4,6 +4,7 @@ import com.geertenvink.Bardiche.io.IOHandler;
 import com.geertenvink.Bardiche.io.extensions.BardicheOutputListExtension;
 import com.geertenvink.Bardiche.io.extensions.BardichePlanExtension;
 import com.geertenvink.Bardiche.io.extensions.BardicheRequirement;
+import com.geertenvink.Bardiche.logic.PossibilityChecker;
 import com.stephengware.java.glaive.Glaive;
 import com.stephengware.java.glaive.GlaivePlan;
 import com.stephengware.java.planware.Argument;
@@ -45,7 +46,7 @@ public class Bardiche extends Glaive {
 	public BardichePlan generate(ArgumentMap arguments, boolean goalChanged) {		
 		// we need to parse the problem before Glaive does so, or it will
 		// attempt to parse it as an IntentionalProblem.
-		BardicheProblem problem = arguments.get(PROBLEM);
+		arguments.get(PROBLEM);
 		
 		if (goalChanged) PossibilityChecker.initialize(arguments);
 		
@@ -54,9 +55,10 @@ public class Bardiche extends Glaive {
 		Result result = search.getNextPlan(arguments);
 		
 		BardichePlan bardichePlan = null;
-		boolean doContinue = false;
 		
 		if (result.getSuccess()) {
+			boolean doContinue = false;
+			
 			GlaivePlan plan = (GlaivePlan) result.getPlan();
 			
 			do {
